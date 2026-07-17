@@ -1,0 +1,7 @@
+frontend/node_modules/
+mysql-data/
+frontend/dist/
+backend/target/
+.env
+*.log
+.vscode/
