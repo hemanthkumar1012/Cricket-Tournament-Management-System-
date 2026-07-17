@@ -1,0 +1,9 @@
+com\tournament\controller\TeamController.class
+com\tournament\controller\MatchController.class
+com\tournament\entity\Match.class
+com\tournament\service\TeamService.class
+com\tournament\TournamentApplication.class
+com\tournament\entity\Team.class
+com\tournament\service\MatchService.class
+com\tournament\repository\TeamRepository.class
+com\tournament\repository\MatchRepository.class
