@@ -22,7 +22,7 @@ export default function MatchManagement() {
 
   const fetchMatches = async () => {
     try {
-      const response = await fetch('/api/matches');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/matches`);
       if (!response.ok) throw new Error('Failed to fetch matches');
       const data = await response.json();
       setMatches(data);
@@ -33,7 +33,7 @@ export default function MatchManagement() {
 
   const fetchTeams = async () => {
     try {
-      const response = await fetch('/api/teams');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/teams`);
       if (!response.ok) throw new Error('Failed to fetch teams');
       const data = await response.json();
       setTeams(data);
@@ -57,7 +57,7 @@ export default function MatchManagement() {
     setSuccess('');
 
     try {
-      const response = await fetch('/api/matches', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/matches`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -91,7 +91,7 @@ export default function MatchManagement() {
     setError('');
 
     try {
-      const response = await fetch(`/api/matches/${selectedMatch.id}/result?team1Score=${team1Score}&team2Score=${team2Score}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/matches/${selectedMatch.id}/result?team1Score=${team1Score}&team2Score=${team2Score}`, {
         method: 'PUT'
       });
 

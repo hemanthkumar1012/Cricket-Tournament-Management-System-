@@ -5,3 +5,5 @@ backend/target/
 .env
 *.log
 .vscode/
+
+.env

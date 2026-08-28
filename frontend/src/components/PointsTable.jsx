@@ -13,7 +13,7 @@ export default function PointsTable() {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('/api/teams/standings');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/teams/standings`);
       if (!response.ok) throw new Error('Failed to fetch standings');
       const data = await response.json();
       setStandings(data);

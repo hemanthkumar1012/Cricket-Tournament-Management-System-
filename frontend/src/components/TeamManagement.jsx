@@ -15,7 +15,7 @@ export default function TeamManagement() {
 
   const fetchTeams = async () => {
     try {
-      const response = await fetch('/api/teams');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/teams`);
       if (!response.ok) throw new Error('Failed to fetch teams');
       const data = await response.json();
       setTeams(data);
@@ -35,7 +35,7 @@ export default function TeamManagement() {
     setSuccess('');
 
     try {
-      const response = await fetch('/api/teams', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/teams`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ teamName, captain })
