@@ -58,3 +58,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document typography hierarchy.
 - Document status color mapping.
 - Document responsive table behavior.
+- Document responsive form behavior.
