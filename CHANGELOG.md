@@ -24,3 +24,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document shared API client responsibilities.
 - Document mobile navigation behavior.
 - Document mobile card stacking.
+- Document desktop sidebar geometry.
