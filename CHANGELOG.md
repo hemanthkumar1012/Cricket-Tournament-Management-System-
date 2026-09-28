@@ -13,3 +13,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document form validation rules.
 - Document score-entry workflow.
 - Document empty states for all major workspaces.
+- Document loading states.
