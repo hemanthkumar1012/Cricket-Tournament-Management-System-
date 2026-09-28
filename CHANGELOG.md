@@ -49,3 +49,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document optimistic list insertion.
 - Document local result replacement.
 - Document success feedback.
+- Document error feedback.
