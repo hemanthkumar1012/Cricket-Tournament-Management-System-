@@ -40,3 +40,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document API response parsing.
 - Document HTTP status propagation.
 - Document encoded score parameters.
+- Document parallel dashboard loading.
