@@ -45,3 +45,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document fixture validation.
 - Document team validation.
 - Document result validation.
+- Document loading submit states.
