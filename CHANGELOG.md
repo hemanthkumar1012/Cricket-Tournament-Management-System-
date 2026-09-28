@@ -29,3 +29,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document hero composition.
 - Document KPI card pattern.
 - Document fixture row pattern.
+- Document standings table pattern.
