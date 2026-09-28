@@ -65,3 +65,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document live feed normalization.
 - Document team-name extraction.
 - Document score extraction.
+- Document series and venue metadata.
