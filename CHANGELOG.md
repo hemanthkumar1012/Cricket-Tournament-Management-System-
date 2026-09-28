@@ -91,3 +91,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document dashboard QA checklist.
 - Document release review scope.
 - Document maintainability goals.
+- Document future extension points.
