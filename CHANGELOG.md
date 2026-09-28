@@ -90,3 +90,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document live score QA checklist.
 - Document dashboard QA checklist.
 - Document release review scope.
+- Document maintainability goals.
