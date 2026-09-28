@@ -51,3 +51,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document success feedback.
 - Document error feedback.
 - Document refresh controls.
+- Document dashboard navigation actions.
