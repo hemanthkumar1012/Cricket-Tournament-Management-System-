@@ -9,3 +9,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Refreshed responsive behavior and application metadata.
 - Document dashboard information hierarchy.
 - Document navigation states.
+- Document responsive breakpoints.
