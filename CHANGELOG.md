@@ -44,3 +44,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document parallel fixture loading.
 - Document fixture validation.
 - Document team validation.
+- Document result validation.
