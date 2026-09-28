@@ -10,3 +10,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document dashboard information hierarchy.
 - Document navigation states.
 - Document responsive breakpoints.
+- Document form validation rules.
