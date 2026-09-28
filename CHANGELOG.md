@@ -37,3 +37,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document focusable dialog controls.
 - Document semantic navigation.
 - Document form label strategy.
+- Document API response parsing.
