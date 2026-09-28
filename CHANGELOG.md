@@ -75,3 +75,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document deployment-safe environment usage.
 - Document backend preservation.
 - Document Vite entrypoint.
+- Document package compatibility.
