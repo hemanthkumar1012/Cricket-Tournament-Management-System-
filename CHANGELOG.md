@@ -8,3 +8,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Reworked dashboard, teams, fixtures, standings and live score experiences.
 - Refreshed responsive behavior and application metadata.
 - Document dashboard information hierarchy.
+- Document navigation states.
