@@ -19,3 +19,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document tournament admin persona.
 - Document match result lifecycle.
 - Document standings normalization.
+- Document team normalization.
