@@ -16,3 +16,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document loading states.
 - Document API error behavior.
 - Document status badge semantics.
+- Document tournament admin persona.
