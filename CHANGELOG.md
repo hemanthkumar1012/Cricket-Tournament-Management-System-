@@ -22,3 +22,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document team normalization.
 - Document live score normalization.
 - Document shared API client responsibilities.
+- Document mobile navigation behavior.
