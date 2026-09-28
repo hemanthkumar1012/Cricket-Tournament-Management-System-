@@ -85,3 +85,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document visual QA checklist.
 - Document mobile QA checklist.
 - Document fixture QA checklist.
+- Document team QA checklist.
