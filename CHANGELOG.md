@@ -82,3 +82,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document normalized standings fields.
 - Document normalized team fields.
 - Document error fallback copy.
+- Document visual QA checklist.
