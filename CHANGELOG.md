@@ -47,3 +47,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document result validation.
 - Document loading submit states.
 - Document optimistic list insertion.
+- Document local result replacement.
