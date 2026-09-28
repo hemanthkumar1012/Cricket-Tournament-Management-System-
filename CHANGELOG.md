@@ -27,3 +27,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document desktop sidebar geometry.
 - Document topbar behavior.
 - Document hero composition.
+- Document KPI card pattern.
