@@ -78,3 +78,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document package compatibility.
 - Document CSS-only component styling.
 - Document API helper boundaries.
+- Document match update query encoding.
