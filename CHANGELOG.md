@@ -33,3 +33,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document team card pattern.
 - Document live score card pattern.
 - Document accessibility labels.
+- Document keyboard-friendly controls.
