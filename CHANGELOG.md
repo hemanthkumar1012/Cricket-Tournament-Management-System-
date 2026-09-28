@@ -34,3 +34,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document live score card pattern.
 - Document accessibility labels.
 - Document keyboard-friendly controls.
+- Document focusable dialog controls.
