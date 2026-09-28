@@ -80,3 +80,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document API helper boundaries.
 - Document match update query encoding.
 - Document normalized standings fields.
+- Document normalized team fields.
