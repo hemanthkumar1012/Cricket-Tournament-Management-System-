@@ -68,3 +68,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document series and venue metadata.
 - Document dashboard leader summary.
 - Document aggregate tournament points.
+- Document scheduled-match counting.
