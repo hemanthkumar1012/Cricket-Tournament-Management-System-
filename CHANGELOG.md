@@ -76,3 +76,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document backend preservation.
 - Document Vite entrypoint.
 - Document package compatibility.
+- Document CSS-only component styling.
