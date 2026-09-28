@@ -55,3 +55,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document reusable icon naming.
 - Document CSS token strategy.
 - Document card surface treatment.
+- Document typography hierarchy.
