@@ -71,3 +71,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document scheduled-match counting.
 - Document completed-match counting.
 - Document recent fixture limit.
+- Document standings snapshot limit.
