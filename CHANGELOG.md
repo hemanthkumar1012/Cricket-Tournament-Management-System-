@@ -60,3 +60,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document responsive table behavior.
 - Document responsive form behavior.
 - Document modal interaction pattern.
+- Document empty-state messaging.
