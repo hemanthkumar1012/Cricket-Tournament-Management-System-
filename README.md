@@ -1,33 +1,28 @@
-﻿# Cricket Tournament Management System
+# CricPulse — Cricket Tournament Management System
 
-This is a comprehensive management system for cricket tournaments featuring a Spring Boot (Java 21) backend, a React (Vite/Tailwind CSS v4) frontend, and a MySQL database.
+A full-stack cricket tournament operations platform with a modern React/Vite dashboard and Spring Boot backend.
 
-## Local Development (Without Docker)
-See earlier walkthrough files for direct execution on Windows.
+## Frontend
+Run npm install followed by npm run dev from the frontend directory.
+Optional API base URL: VITE_API_BASE_URL=http://localhost:8080
 
-## Production Deployment (With Docker)
+## Tournament workflow
+- Overview dashboard with tournament KPIs
+- Team registration and active team cards
+- Fixture creation and match result entry
+- Live score center
+- Points table and ranking snapshot
+- Responsive desktop, tablet and mobile layouts
+- Shared API client with consistent JSON and error handling
 
-### Prerequisites
-* Docker and Docker Compose installed on your host server.
+## Existing API routes
+- GET /api/teams
+- POST /api/teams
+- GET /api/teams/standings
+- GET /api/matches
+- POST /api/matches
+- PUT /api/matches/:id/result
+- GET /api/live
 
-### Steps
-1. **Clone the repository.**
-2. **Configure Environment variables:**
-   Copy `.env.example` to `.env` and fill in your secure database password.
-   ```sh
-   cp .env.example .env
-   ```
-3. **Start the application stack:**
-   ```sh
-   docker-compose up -d --build
-   ```
-4. **Access the application:**
-   The frontend will be available at `http://localhost:80` (or your server IP).
-   The backend API runs on `http://localhost:8080`.
-   Nginx automatically proxies `/api` calls from the frontend to the backend.
-
-### Services
-* **db**: MySQL 8.0 container holding `cricket_db`.
-* **backend**: Spring Boot application running on port 8080.
-* **frontend**: Nginx serving statically built React application on port 80.
-
+## UI direction
+CricPulse uses a focused green and lime cricket-operations visual system, dense information hierarchy, reusable cards, clear status badges and responsive tables. The goal is fast tournament administration during an active match day.
