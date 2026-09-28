@@ -41,3 +41,4 @@ This log records the incremental work behind the tournament dashboard redesign.
 - Document HTTP status propagation.
 - Document encoded score parameters.
 - Document parallel dashboard loading.
+- Document parallel fixture loading.
