@@ -65,3 +65,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-058: Score entry prevents submission while the update request is pending.
 - [ ] QA-059: Successful score entry closes the dialog.
 - [ ] QA-060: Successful score entry updates the visible match result.
+- [ ] QA-061: Failed score updates keep the dialog available for correction.
