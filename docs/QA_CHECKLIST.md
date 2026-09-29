@@ -102,3 +102,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-095: Buttons communicate disabled or pending states during mutations.
 - [ ] QA-096: Modal content remains within the viewport on small screens.
 - [ ] QA-097: Keyboard users can reach primary form actions in a logical order.
+- [ ] QA-098: Interactive controls have visible focus treatment.
