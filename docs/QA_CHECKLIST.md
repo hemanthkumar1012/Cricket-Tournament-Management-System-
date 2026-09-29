@@ -58,3 +58,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-051: Match filters preserve readable active-state treatment.
 - [ ] QA-052: Match cards show both participating teams.
 - [ ] QA-053: Match cards show the scheduled date and time.
+- [ ] QA-054: Match cards distinguish open fixtures from completed results.
