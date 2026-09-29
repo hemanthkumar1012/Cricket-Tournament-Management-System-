@@ -73,3 +73,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-066: Fixture refresh does not create duplicate cards.
 - [ ] QA-067: Standings display team names consistently with the team workspace.
 - [ ] QA-068: Standings display played matches for each team.
+- [ ] QA-069: Standings display wins for each team.
