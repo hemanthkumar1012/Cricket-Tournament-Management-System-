@@ -85,3 +85,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-078: Live score room clearly indicates its feed state.
 - [ ] QA-079: Live score cards identify the active match.
 - [ ] QA-080: Live score cards display both team names.
+- [ ] QA-081: Live score cards display the current score.
