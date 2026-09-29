@@ -40,3 +40,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-033: Team registration clears the form after a successful creation.
 - [ ] QA-034: Newly registered teams appear without requiring a full page reload.
 - [ ] QA-035: Team cards expose captain information consistently.
+- [ ] QA-036: Team cards display a stable roster position.
