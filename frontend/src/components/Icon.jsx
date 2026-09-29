@@ -10,6 +10,7 @@ refresh:<><path d="M20 11a8.1 8.1 0 0 0-14.8-3L3 11"/><path d="M3 4v7h7M4 13a8.1
 plus:<><path d="M12 5v14M5 12h14"/></>,
 close:<><path d="m6 6 12 12M18 6 6 18"/></>,
 arrow:<><path d="M5 12h14M13 6l6 6-6 6"/></>,
-check:<path d="m5 12 4 4L19 6"/>
+check:<path d="m5 12 4 4L19 6"/>,
+chevron:<path d="m7 10 5 5 5-5"/>
 };
 export default function Icon({name,size=18,strokeWidth=1.8}){return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]||paths.grid}</svg>;}
