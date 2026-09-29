@@ -25,3 +25,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-018: Mobile navigation opens and closes without changing the current route state.
 - [ ] QA-019: Mobile navigation closes after selecting a workspace.
 - [ ] QA-020: Current season context remains visible in the desktop sidebar.
+- [ ] QA-021: System status treatment is visually distinct from navigation items.
