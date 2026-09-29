@@ -38,3 +38,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-031: Team registration prevents accidental submission while a request is pending.
 - [ ] QA-032: Team registration reports backend validation failures clearly.
 - [ ] QA-033: Team registration clears the form after a successful creation.
+- [ ] QA-034: Newly registered teams appear without requiring a full page reload.
