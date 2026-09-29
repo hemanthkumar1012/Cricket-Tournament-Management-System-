@@ -61,3 +61,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-054: Match cards distinguish open fixtures from completed results.
 - [ ] QA-055: Score entry requires a valid home score.
 - [ ] QA-056: Score entry requires a valid away score.
+- [ ] QA-057: Score entry rejects negative score values.
