@@ -70,3 +70,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-063: Score-entry dialog keeps labels associated with inputs.
 - [ ] QA-064: Fixture list provides a useful empty state when no matches exist.
 - [ ] QA-065: Fixture list provides a retry action after loading failure.
+- [ ] QA-066: Fixture refresh does not create duplicate cards.
