@@ -97,3 +97,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-090: Parallel dashboard requests do not block unrelated panels.
 - [ ] QA-091: Loading indicators disappear after successful requests.
 - [ ] QA-092: Loading indicators disappear after failed requests.
+- [ ] QA-093: Empty states do not appear simultaneously with active loading states.
