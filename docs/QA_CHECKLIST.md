@@ -54,3 +54,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-047: Fixture creation submits the expected team identifiers.
 - [ ] QA-048: Fixture creation shows a pending state during submission.
 - [ ] QA-049: Newly created fixtures appear in the match desk.
+- [ ] QA-050: Match filters switch between all, open, and completed fixtures.
