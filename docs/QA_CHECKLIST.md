@@ -67,3 +67,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-060: Successful score entry updates the visible match result.
 - [ ] QA-061: Failed score updates keep the dialog available for correction.
 - [ ] QA-062: Score-entry dialog can be dismissed without changing match data.
+- [ ] QA-063: Score-entry dialog keeps labels associated with inputs.
