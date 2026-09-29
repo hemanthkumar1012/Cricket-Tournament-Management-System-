@@ -91,3 +91,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-084: Live score room shows a recoverable error state after a failed request.
 - [ ] QA-085: Live score refresh does not duplicate live cards.
 - [ ] QA-086: Live score content remains readable on mobile devices.
+- [ ] QA-087: Shared API errors are converted into user-facing fallback messages.
