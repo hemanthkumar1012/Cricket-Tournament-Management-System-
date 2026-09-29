@@ -15,3 +15,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-008: Recent matches are ordered consistently for the tournament operator.
 - [ ] QA-009: Leaderboard summary highlights the current points leader without hiding other teams.
 - [ ] QA-010: Operations cards remain readable when action descriptions wrap to multiple lines.
+- [ ] QA-011: Dashboard navigation actions move to the intended workspace.
