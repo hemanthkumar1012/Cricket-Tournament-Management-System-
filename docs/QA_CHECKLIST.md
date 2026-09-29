@@ -18,3 +18,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-011: Dashboard navigation actions move to the intended workspace.
 - [ ] QA-012: Refresh actions do not duplicate dashboard records.
 - [ ] QA-013: Dashboard remains usable when one secondary panel has no data.
+- [ ] QA-014: Dashboard metrics do not display undefined or null values.
