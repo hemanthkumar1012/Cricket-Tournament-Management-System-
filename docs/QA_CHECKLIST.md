@@ -80,3 +80,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-073: Standings leader summary reflects the current first-ranked team.
 - [ ] QA-074: Standings remain readable when many teams are registered.
 - [ ] QA-075: Standings show a useful empty state before the first result exists.
+- [ ] QA-076: Standings expose a refresh action.
