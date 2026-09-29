@@ -48,3 +48,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-041: Team names remain legible when unusually long names are entered.
 - [ ] QA-042: Team form controls have visible labels and usable focus states.
 - [ ] QA-043: Fixture creation requires a home team.
+- [ ] QA-044: Fixture creation requires an away team.
