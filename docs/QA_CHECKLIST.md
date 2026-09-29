@@ -95,3 +95,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-088: API helpers preserve the backend response shape needed by the UI.
 - [ ] QA-089: URL query parameters are encoded before score updates are sent.
 - [ ] QA-090: Parallel dashboard requests do not block unrelated panels.
+- [ ] QA-091: Loading indicators disappear after successful requests.
