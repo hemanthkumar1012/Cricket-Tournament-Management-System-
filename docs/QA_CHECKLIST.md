@@ -13,3 +13,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-006: KPI cards use consistent labels, values, and supporting context.
 - [ ] QA-007: Completion percentage remains readable at narrow mobile widths.
 - [ ] QA-008: Recent matches are ordered consistently for the tournament operator.
+- [ ] QA-009: Leaderboard summary highlights the current points leader without hiding other teams.
