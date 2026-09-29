@@ -36,3 +36,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-029: Team registration rejects an empty team name.
 - [ ] QA-030: Team registration rejects an empty captain name.
 - [ ] QA-031: Team registration prevents accidental submission while a request is pending.
+- [ ] QA-032: Team registration reports backend validation failures clearly.
