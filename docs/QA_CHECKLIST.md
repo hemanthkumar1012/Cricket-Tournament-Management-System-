@@ -51,3 +51,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-044: Fixture creation requires an away team.
 - [ ] QA-045: Fixture creation rejects selecting the same team twice.
 - [ ] QA-046: Fixture creation requires a scheduled date and time.
+- [ ] QA-047: Fixture creation submits the expected team identifiers.
