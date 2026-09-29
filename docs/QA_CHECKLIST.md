@@ -11,3 +11,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-004: Dashboard shows an intentional empty state when no teams exist.
 - [ ] QA-005: Dashboard shows an intentional empty state when no fixtures exist.
 - [ ] QA-006: KPI cards use consistent labels, values, and supporting context.
+- [ ] QA-007: Completion percentage remains readable at narrow mobile widths.
