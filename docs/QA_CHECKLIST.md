@@ -75,3 +75,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-068: Standings display played matches for each team.
 - [ ] QA-069: Standings display wins for each team.
 - [ ] QA-070: Standings display losses for each team.
+- [ ] QA-071: Standings display points for each team.
