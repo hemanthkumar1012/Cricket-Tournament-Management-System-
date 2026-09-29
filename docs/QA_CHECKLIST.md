@@ -26,3 +26,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-019: Mobile navigation closes after selecting a workspace.
 - [ ] QA-020: Current season context remains visible in the desktop sidebar.
 - [ ] QA-021: System status treatment is visually distinct from navigation items.
+- [ ] QA-022: Sidebar labels remain readable at the smallest supported viewport.
