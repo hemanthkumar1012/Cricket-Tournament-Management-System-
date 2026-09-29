@@ -35,3 +35,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-028: Active navigation state is distinguishable without relying only on color.
 - [ ] QA-029: Team registration rejects an empty team name.
 - [ ] QA-030: Team registration rejects an empty captain name.
+- [ ] QA-031: Team registration prevents accidental submission while a request is pending.
