@@ -59,3 +59,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-052: Match cards show both participating teams.
 - [ ] QA-053: Match cards show the scheduled date and time.
 - [ ] QA-054: Match cards distinguish open fixtures from completed results.
+- [ ] QA-055: Score entry requires a valid home score.
