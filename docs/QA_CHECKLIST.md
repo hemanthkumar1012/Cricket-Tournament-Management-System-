@@ -89,3 +89,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-082: Live score cards show venue or series context when supplied by the API.
 - [ ] QA-083: Live score room shows an intentional empty state when no live data exists.
 - [ ] QA-084: Live score room shows a recoverable error state after a failed request.
+- [ ] QA-085: Live score refresh does not duplicate live cards.
