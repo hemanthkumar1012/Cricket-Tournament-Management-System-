@@ -82,3 +82,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-075: Standings show a useful empty state before the first result exists.
 - [ ] QA-076: Standings expose a refresh action.
 - [ ] QA-077: Standings refresh does not reset the surrounding workspace layout.
+- [ ] QA-078: Live score room clearly indicates its feed state.
