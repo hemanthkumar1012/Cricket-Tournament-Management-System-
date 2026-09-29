@@ -42,3 +42,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-035: Team cards expose captain information consistently.
 - [ ] QA-036: Team cards display a stable roster position.
 - [ ] QA-037: Team cards retain readable metadata on narrow screens.
+- [ ] QA-038: Team management shows a useful empty state when no teams are registered.
