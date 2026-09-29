@@ -104,3 +104,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-097: Keyboard users can reach primary form actions in a logical order.
 - [ ] QA-098: Interactive controls have visible focus treatment.
 - [ ] QA-099: Text and controls maintain sufficient contrast against their surfaces.
+- [ ] QA-100: The complete tournament workflow can be exercised from team creation through fixture result and standings refresh.
