@@ -22,3 +22,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-015: Dashboard cards preserve spacing across desktop and mobile breakpoints.
 - [ ] QA-016: Sidebar exposes the active workspace clearly.
 - [ ] QA-017: Sidebar navigation remains usable after switching between all workspaces.
+- [ ] QA-018: Mobile navigation opens and closes without changing the current route state.
