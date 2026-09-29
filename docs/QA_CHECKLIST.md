@@ -30,3 +30,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-023: Topbar date context renders without overflowing.
 - [ ] QA-024: Admin identity remains visible in the desktop command bar.
 - [ ] QA-025: Topbar menu control has an accessible label.
+- [ ] QA-026: Topbar controls preserve keyboard focus visibility.
