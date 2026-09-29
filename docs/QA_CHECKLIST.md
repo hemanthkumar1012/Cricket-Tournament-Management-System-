@@ -78,3 +78,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-071: Standings display points for each team.
 - [ ] QA-072: Standings maintain a stable ranking order.
 - [ ] QA-073: Standings leader summary reflects the current first-ranked team.
+- [ ] QA-074: Standings remain readable when many teams are registered.
