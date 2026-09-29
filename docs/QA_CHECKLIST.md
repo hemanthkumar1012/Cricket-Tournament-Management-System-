@@ -17,3 +17,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-010: Operations cards remain readable when action descriptions wrap to multiple lines.
 - [ ] QA-011: Dashboard navigation actions move to the intended workspace.
 - [ ] QA-012: Refresh actions do not duplicate dashboard records.
+- [ ] QA-013: Dashboard remains usable when one secondary panel has no data.
