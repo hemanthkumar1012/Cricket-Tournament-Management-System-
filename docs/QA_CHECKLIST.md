@@ -45,3 +45,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-038: Team management shows a useful empty state when no teams are registered.
 - [ ] QA-039: Team management shows a useful loading state during fetch operations.
 - [ ] QA-040: Team management exposes a retry path after a fetch failure.
+- [ ] QA-041: Team names remain legible when unusually long names are entered.
