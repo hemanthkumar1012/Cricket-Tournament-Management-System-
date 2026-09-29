@@ -29,3 +29,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-022: Sidebar labels remain readable at the smallest supported viewport.
 - [ ] QA-023: Topbar date context renders without overflowing.
 - [ ] QA-024: Admin identity remains visible in the desktop command bar.
+- [ ] QA-025: Topbar menu control has an accessible label.
