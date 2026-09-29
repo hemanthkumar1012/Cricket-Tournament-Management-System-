@@ -20,3 +20,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-013: Dashboard remains usable when one secondary panel has no data.
 - [ ] QA-014: Dashboard metrics do not display undefined or null values.
 - [ ] QA-015: Dashboard cards preserve spacing across desktop and mobile breakpoints.
+- [ ] QA-016: Sidebar exposes the active workspace clearly.
