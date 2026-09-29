@@ -31,3 +31,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-024: Admin identity remains visible in the desktop command bar.
 - [ ] QA-025: Topbar menu control has an accessible label.
 - [ ] QA-026: Topbar controls preserve keyboard focus visibility.
+- [ ] QA-027: Navigation icons retain consistent sizing across states.
