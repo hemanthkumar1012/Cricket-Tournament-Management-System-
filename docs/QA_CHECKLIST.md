@@ -76,3 +76,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-069: Standings display wins for each team.
 - [ ] QA-070: Standings display losses for each team.
 - [ ] QA-071: Standings display points for each team.
+- [ ] QA-072: Standings maintain a stable ranking order.
