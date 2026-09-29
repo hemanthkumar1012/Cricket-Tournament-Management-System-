@@ -63,3 +63,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-056: Score entry requires a valid away score.
 - [ ] QA-057: Score entry rejects negative score values.
 - [ ] QA-058: Score entry prevents submission while the update request is pending.
+- [ ] QA-059: Successful score entry closes the dialog.
