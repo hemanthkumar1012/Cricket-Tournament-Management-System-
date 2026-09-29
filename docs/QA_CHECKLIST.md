@@ -94,3 +94,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-087: Shared API errors are converted into user-facing fallback messages.
 - [ ] QA-088: API helpers preserve the backend response shape needed by the UI.
 - [ ] QA-089: URL query parameters are encoded before score updates are sent.
+- [ ] QA-090: Parallel dashboard requests do not block unrelated panels.
