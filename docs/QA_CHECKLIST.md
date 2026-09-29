@@ -21,3 +21,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-014: Dashboard metrics do not display undefined or null values.
 - [ ] QA-015: Dashboard cards preserve spacing across desktop and mobile breakpoints.
 - [ ] QA-016: Sidebar exposes the active workspace clearly.
+- [ ] QA-017: Sidebar navigation remains usable after switching between all workspaces.
