@@ -98,3 +98,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-091: Loading indicators disappear after successful requests.
 - [ ] QA-092: Loading indicators disappear after failed requests.
 - [ ] QA-093: Empty states do not appear simultaneously with active loading states.
+- [ ] QA-094: Error states do not expose raw stack traces to tournament operators.
