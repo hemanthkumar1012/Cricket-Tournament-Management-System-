@@ -86,3 +86,4 @@ A living acceptance checklist for the tournament operations dashboard.
 - [ ] QA-079: Live score cards identify the active match.
 - [ ] QA-080: Live score cards display both team names.
 - [ ] QA-081: Live score cards display the current score.
+- [ ] QA-082: Live score cards show venue or series context when supplied by the API.
