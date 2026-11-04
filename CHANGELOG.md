@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.2.0 — Live innings and ball-by-ball scoring
+
+- Added persistent innings and delivery records with database constraints.
+- Added scorer workflows for starting innings and recording batter, bowler, extras and dismissals.
+- Added scorecards with batting and bowling figures, run rate, extras and recent deliveries.
+- Added second-innings chase targets and innings completion rules for overs, wickets and target reached.
+- Added undo-last-delivery with score recalculation.
+- Finalized ball-by-ball match totals through the existing standings engine.
+- Prevented manual final-score writes from bypassing a live scorecard.
+- Protected player history from reassignment or deletion after recorded deliveries.
+- Added API regression tests for extras, undo, authorization, all-out handling and final standings.
+
+
 ## 2.1.0 — Player roster management
 
 - Added admin-managed player registration.
