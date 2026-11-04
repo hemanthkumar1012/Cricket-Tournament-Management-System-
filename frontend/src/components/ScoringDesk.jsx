@@ -257,7 +257,7 @@ export default function ScoringDesk() {
   const dismissalOptions = delivery.extraType === "NO_BALL"
     ? ["run_out", "obstructing_field"]
     : delivery.extraType === "WIDE"
-      ? ["run_out", "stumped", "obstructing_field", "hit_wicket"]
+      ? ["run_out", "stumped", "obstructing_field"]
       : ["bowled", "caught", "lbw", "run_out", "stumped", "hit_wicket", "obstructing_field"];
 
   return (
