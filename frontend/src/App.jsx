@@ -3,6 +3,7 @@ import Dashboard from "./components/Dashboard";
 import TeamManagement from "./components/TeamManagement";
 import PlayerManagement from "./components/PlayerManagement";
 import MatchManagement from "./components/MatchManagement";
+import ScoringDesk from "./components/ScoringDesk";
 import PointsTable from "./components/PointsTable";
 import LiveScores from "./components/LiveScores";
 import Sidebar from "./components/Sidebar";
@@ -16,6 +17,7 @@ const pages = {
   teams: { title: "Team management", eyebrow: "Competition setup" },
   players: { title: "Player roster", eyebrow: "Squad management" },
   matches: { title: "Fixtures & results", eyebrow: "Match operations" },
+  scoring: { title: "Ball-by-ball scoring", eyebrow: "Live scoring" },
   standings: { title: "Points table", eyebrow: "Tournament rankings" },
 };
 
@@ -44,6 +46,7 @@ export default function App() {
       case "teams": return <TeamManagement />;
       case "players": return <PlayerManagement />;
       case "matches": return <MatchManagement />;
+      case "scoring": return <ScoringDesk />;
       case "standings": return <PointsTable />;
       default: return <Dashboard onNavigate={setActivePage} />;
     }
