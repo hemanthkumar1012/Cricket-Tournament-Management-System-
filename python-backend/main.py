@@ -5,8 +5,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 import models  # Register SQLAlchemy models before metadata creation.
+import scoring_models  # Register innings and delivery tables before metadata creation.
 from database import Base, engine
 from routes import router
+from scoring_routes import router as scoring_router
 
 
 @asynccontextmanager
@@ -40,3 +42,4 @@ app.add_middleware(
 )
 
 app.include_router(router, prefix="/api")
+app.include_router(scoring_router, prefix="/api")
