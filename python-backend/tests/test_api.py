@@ -262,6 +262,11 @@ def test_ball_by_ball_scoring_tracks_extras_batter_stats_and_undo():
         assert started.status_code == 201, started.text
         innings = started.json()["innings"][0]
         assert innings["status"] == "IN_PROGRESS"
+        blocked_manual_result = client.put(
+            f"/api/matches/{match['id']}/result?team1Score=100&team2Score=90",
+            headers=headers,
+        )
+        assert blocked_manual_result.status_code == 409
 
         boundary = client.post(
             f"/api/innings/{innings['id']}/deliveries",
