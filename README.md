@@ -19,6 +19,13 @@ The repository uses **one backend: FastAPI**. The historical Spring Boot impleme
 - Player registration, role selection, team assignment, reassignment and removal
 - Searchable player roster
 - Fixture creation with date and time
+- Live ball-by-ball scoring with batter, non-striker and bowler selection
+- Delivery tracking for runs, wides, no-balls, byes and leg-byes
+- Wicket and dismissal recording with player-level scorecards
+- Innings totals, wickets, overs, run rate, extras, batter figures and bowling figures
+- Last-delivery undo with score recalculation
+- Second-innings chase target and automatic innings completion
+- Match finalization that updates standings from the innings totals
 - Match result entry with non-negative score validation
 - Automatic win, loss, tie, matches-played and points calculation
 - Protection against applying a completed result twice
@@ -122,10 +129,15 @@ Vercel builds the React app from `frontend/` and sends API requests to the FastA
 | GET / POST | `/api/players` | Public read / admin write |
 | PATCH / DELETE | `/api/players/{id}` | Admin token |
 | GET / POST | `/api/matches` | Public read / admin write |
-| PUT | `/api/matches/{id}/result` | Admin token |
+| PUT | `/api/matches/{id}/result` | Admin token (fixtures not using ball-by-ball scoring) |
+| GET | `/api/matches/{id}/scorecard` | Public |
+| POST | `/api/matches/{id}/innings` | Admin token |
+| POST | `/api/innings/{id}/deliveries` | Admin token |
+| DELETE | `/api/innings/{id}/last-delivery` | Admin token |
+| POST | `/api/matches/{id}/finish` | Admin token |
 | GET | `/api/live` | Public |
 
-FastAPI's interactive documentation lists request and response schemas at `/docs`.
+Ball-by-ball scorecards are generated from persisted delivery records. Once an innings starts, the old manual final-score endpoint is blocked for that match. Finalize the match from the Scoring desk after both innings complete. FastAPI's interactive documentation lists request and response schemas at `/docs`.
 
 ## Tournament scoring rules
 
