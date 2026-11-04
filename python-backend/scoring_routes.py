@@ -90,7 +90,7 @@ def _innings_payload(db: Session, innings: score_models.Innings) -> dict:
         if batter:
             batter["_first_seen"] = min(batter["_first_seen"], delivery.sequence_no)
             batter["runs"] += delivery.batter_runs
-            if delivery.extra_type != "WIDE":
+            if delivery.extra_type not in {"WIDE", "NO_BALL"}:
                 batter["balls_faced"] += 1
             if delivery.batter_runs == 4:
                 batter["fours"] += 1
@@ -121,8 +121,14 @@ def _innings_payload(db: Session, innings: score_models.Innings) -> dict:
         stats.pop("_first_seen")
     batting_rows = sorted(
         batting_stats.values(),
-        key=lambda item: (item["status"] == "yet to bat", item["name"].casefold()),
+        key=lambda item: (
+            item["status"] == "yet to bat",
+            item["_first_seen"],
+            item["name"].casefold(),
+        ),
     )
+    for stats in batting_rows:
+        stats.pop("_first_seen")
     for stats in bowling_stats.values():
         stats["overs"] = f'{stats["legal_balls"] // 6}.{stats["legal_balls"] % 6}'
 
@@ -371,6 +377,11 @@ def record_delivery(
     if payload.wicket:
         innings.wickets += 1
 
+    batting_squad_size = db.query(models.Player).filter(
+        models.Player.team_id == innings.batting_team_id
+    ).count()
+    max_wickets = min(10, max(1, batting_squad_size - 1))
+
     first = (
         db.query(score_models.Innings)
         .filter(
@@ -386,7 +397,7 @@ def record_delivery(
     )
     innings_complete = (
         innings.legal_balls >= innings.overs_limit * 6
-        or innings.wickets >= 10
+        or innings.wickets >= max_wickets
         or target_reached
     )
     if innings_complete:
@@ -459,7 +470,11 @@ def undo_last_delivery(
         and first is not None
         and innings.total_runs >= first.total_runs + 1
     )
-    if innings.legal_balls >= innings.overs_limit * 6 or innings.wickets >= 10 or target_reached:
+    batting_squad_size = db.query(models.Player).filter(
+        models.Player.team_id == innings.batting_team_id
+    ).count()
+    max_wickets = min(10, max(1, batting_squad_size - 1))
+    if innings.legal_balls >= innings.overs_limit * 6 or innings.wickets >= max_wickets or target_reached:
         innings.status = "COMPLETED"
         innings.completed_at = datetime.now(timezone.utc)
 
