@@ -428,7 +428,7 @@ export default function ScoringDesk() {
                   </div>
                   <div className="field">
                     <label htmlFor="extra-type">Extras</label>
-                    <select className="select" id="extra-type" value={delivery.extraType} onChange={(event) => setDelivery({ ...delivery, extraType: event.target.value, batterRuns: event.target.value === "WIDE" ? "0" : delivery.batterRuns, extrasRuns: "0", dismissalType: event.target.value === "NO_BALL" ? "run_out" : event.target.value === "WIDE" ? "stumped" : "bowled" })}>
+                    <select className="select" id="extra-type" value={delivery.extraType} onChange={(event) => setDelivery({ ...delivery, extraType: event.target.value, batterRuns: event.target.value === "WIDE" ? "0" : delivery.batterRuns, extrasRuns: ["BYE", "LEG_BYE"].includes(event.target.value) ? "1" : "0", batterRuns: ["WIDE", "BYE", "LEG_BYE"].includes(event.target.value) ? "0" : delivery.batterRuns, dismissalType: event.target.value === "NO_BALL" ? "run_out" : event.target.value === "WIDE" ? "stumped" : "bowled" })}>
                       <option value="NONE">No extras</option><option value="WIDE">Wide (+1 penalty)</option><option value="NO_BALL">No-ball (+1 penalty)</option><option value="BYE">Bye</option><option value="LEG_BYE">Leg-bye</option>
                     </select>
                   </div>
