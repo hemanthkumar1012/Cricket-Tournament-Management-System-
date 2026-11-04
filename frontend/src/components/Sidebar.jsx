@@ -7,6 +7,7 @@ const navItems=[
   ['teams','Teams','users'],
   ['players','Players','users'],
   ['matches','Fixtures','calendar'],
+  ['scoring','Scoring desk','activity'],
   ['standings','Standings','trophy']
 ];
 
