@@ -29,6 +29,8 @@ class DeliveryCreate(BaseModel):
             raise ValueError("Extra runs require an extras type")
         if self.extra_type == "WIDE" and self.batter_runs:
             raise ValueError("A wide cannot also contain batter runs")
+        if self.extra_type in {"BYE", "LEG_BYE"} and self.batter_runs:
+            raise ValueError("Bye and leg-bye runs cannot be credited to the batter")
         if self.extra_type in {"BYE", "LEG_BYE"} and self.extras_runs < 1:
             raise ValueError("Byes and leg-byes must add at least one extra run")
         if self.wicket:
