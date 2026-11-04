@@ -19,8 +19,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="CricPulse API",
-    description="Tournament administration, fixtures, score reporting and live cricket feed.",
-    version="2.0.0",
+    description="Tournament administration, player rosters, ball-by-ball scoring, scorecards and standings.",
+    version="2.2.0",
     lifespan=lifespan,
 )
 
