@@ -1,9 +1,30 @@
-frontend/node_modules/
-mysql-data/
-frontend/dist/
-backend/target/
+# Secrets and local configuration
 .env
-*.log
-.vscode/
+.env.*
+!.env.example
 
-.env
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite
+*.sqlite3
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Node
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# Java build output from historical backend versions
+backend/target/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

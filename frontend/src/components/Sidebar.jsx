@@ -23,7 +23,7 @@ export default function Sidebar({activePage,onNavigate,mobileOpen,onClose}){
     </nav>
     <div className="sidebar-bottom">
       <div className="season-card"><div className="season-kicker">Current season</div><strong>City Premier League</strong><span>2026 · League stage</span></div>
-      <div className="system-card"><div className="status-row"><span className="status-dot"/> System online</div><p className="status-copy">All tournament services are responding normally.</p></div>
+      <div className="system-card"><div className="status-row"><span className="status-dot"/> Admin session active</div><p className="status-copy">Protected tournament updates are enabled for this session.</p></div>
     </div>
   </aside>;
 }

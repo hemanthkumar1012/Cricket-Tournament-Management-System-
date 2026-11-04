@@ -1,44 +1,65 @@
-﻿from pydantic import BaseModel
-from typing import Optional, List
+from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+
 
 class TeamCreate(BaseModel):
-    name: str
-    captain: Optional[str] = None
+    name: str = Field(min_length=2, max_length=80)
+    captain: str = Field(min_length=2, max_length=80)
 
-class TeamResponse(TeamCreate):
+
+class TeamResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
-    matches_played: int = 0
-    wins: int = 0
-    losses: int = 0
-    points: int = 0
+    name: str
+    captain: str
+    matches_played: int
+    wins: int
+    losses: int
+    draws: int
+    points: int
 
-    class Config:
-        from_attributes = True
 
 class PlayerCreate(BaseModel):
-    name: str
-    role: Optional[str] = None
+    name: str = Field(min_length=2, max_length=80)
+    role: str = Field(default="Player", min_length=2, max_length=40)
     team_id: Optional[int] = None
 
-class PlayerResponse(PlayerCreate):
-    id: int
 
-    class Config:
-        from_attributes = True
+class PlayerResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    name: str
+    role: str
+    team_id: Optional[int] = None
+
 
 class MatchCreate(BaseModel):
-    team1_id: int
-    team2_id: int
+    team1_id: int = Field(gt=0)
+    team2_id: int = Field(gt=0)
+    scheduled_at: Optional[datetime] = None
+
+    @model_validator(mode="after")
+    def teams_must_be_different(self):
+        if self.team1_id == self.team2_id:
+            raise ValueError("A team cannot play against itself")
+        return self
+
 
 class MatchScoreUpdate(BaseModel):
-    status: str
-    winner_id: Optional[int] = None
+    team1_score: int = Field(ge=0)
+    team2_score: int = Field(ge=0)
 
-class MatchResponse(MatchCreate):
-    id: int
-    status: str
-    winner_id: Optional[int] = None
 
-    class Config:
-        from_attributes = True
+class LoginRequest(BaseModel):
+    username: str = Field(min_length=1, max_length=80)
+    password: str = Field(min_length=1, max_length=200)
 
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    expires_in: int

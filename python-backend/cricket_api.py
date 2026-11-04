@@ -1,4 +1,5 @@
-﻿import html
+﻿import asyncio
+import html
 import os
 import re
 import time
@@ -17,6 +18,8 @@ CRICKET_API_KEY = os.getenv("CRICKET_API_KEY", "").strip()
 BASE_URL = "https://www.cricbuzz.com"
 LIVE_URL = f"{BASE_URL}/cricket-match/live-scores"
 LIVE_CACHE = {"data": None, "updated_at": None}
+CACHE_TTL_SECONDS = int(os.getenv("LIVE_SCORE_CACHE_TTL", "45"))
+LIVE_LOCK = asyncio.Lock()
 
 
 def get_headers():
@@ -149,35 +152,44 @@ def parse_cricbuzz_live_matches(html_text):
 
 
 async def fetch_live_matches():
-    """Fetch the current public Cricbuzz live-match listings and normalize them."""
-    async with httpx.AsyncClient(timeout=25.0) as client:
-        try:
-            response = await client.get(LIVE_URL, headers=get_headers())
-            response.raise_for_status()
-            html_text = response.text
-            matches = parse_cricbuzz_live_matches(html_text)
-            if not matches:
-                return {
-                    "success": False,
-                    "source": "provider",
-                    "error": "No live cricket matches available right now",
-                    "detail": "The live scores page did not return any match entries.",
-                }
-            payload = {"matches": matches}
-            set_live_cache(payload)
-            return payload
-        except httpx.HTTPStatusError as e:
-            return build_provider_error_payload(
-                status_code=e.response.status_code,
-                detail=e.response.text or str(e),
-                error="Live cricket provider temporarily unavailable",
-            )
-        except httpx.RequestError as e:
-            return build_provider_error_payload(
-                status_code=None,
-                detail=str(e),
-                error="Could not connect to the live cricket source",
-            )
+    """Fetch and normalize the public live-score listing with a short process cache."""
+    now = time.time()
+    if LIVE_CACHE["data"] and LIVE_CACHE["updated_at"] and now - LIVE_CACHE["updated_at"] < CACHE_TTL_SECONDS:
+        return {"matches": LIVE_CACHE["data"]["matches"], "source": "cache", "cached_at": LIVE_CACHE["updated_at"]}
+
+    async with LIVE_LOCK:
+        now = time.time()
+        if LIVE_CACHE["data"] and LIVE_CACHE["updated_at"] and now - LIVE_CACHE["updated_at"] < CACHE_TTL_SECONDS:
+            return {"matches": LIVE_CACHE["data"]["matches"], "source": "cache", "cached_at": LIVE_CACHE["updated_at"]}
+
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            try:
+                response = await client.get(LIVE_URL, headers=get_headers())
+                response.raise_for_status()
+                html_text = response.text
+                matches = parse_cricbuzz_live_matches(html_text)
+                if not matches:
+                    return {
+                        "success": False,
+                        "source": "provider",
+                        "error": "No live cricket matches available right now",
+                        "detail": "The live scores page did not return any match entries.",
+                    }
+                payload = {"matches": matches}
+                set_live_cache(payload)
+                return payload
+            except httpx.HTTPStatusError as e:
+                return build_provider_error_payload(
+                    status_code=e.response.status_code,
+                    detail=e.response.text or str(e),
+                    error="Live cricket provider temporarily unavailable",
+                )
+            except httpx.RequestError as e:
+                return build_provider_error_payload(
+                    status_code=None,
+                    detail=str(e),
+                    error="Could not connect to the live cricket source",
+                )
 
 
 async def fetch_schedule():

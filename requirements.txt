@@ -1,7 +1,2 @@
-fastapi
-uvicorn
-sqlalchemy
-pymysql
-python-dotenv
-pydantic
-httpx
+# Vercel installs Python function dependencies from this root file.
+-r python-backend/requirements.txt
