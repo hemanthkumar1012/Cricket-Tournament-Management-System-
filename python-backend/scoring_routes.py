@@ -79,11 +79,12 @@ def _innings_payload(db: Session, innings: score_models.Innings) -> dict:
     }
 
     dismissed = set()
-    first_seen = {}
     for delivery in deliveries:
         for player_id in (delivery.striker_id, delivery.non_striker_id):
             if player_id in batting_stats:
-                first_seen.setdefault(player_id, delivery.sequence_no)
+                batting_stats[player_id]["_first_seen"] = min(
+                    batting_stats[player_id]["_first_seen"], delivery.sequence_no
+                )
 
         batter = batting_stats.get(delivery.striker_id)
         if batter:
