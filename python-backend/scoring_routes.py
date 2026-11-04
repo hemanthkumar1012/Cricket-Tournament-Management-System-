@@ -17,8 +17,11 @@ def _not_found():
     raise HTTPException(status_code=404, detail="Match or innings not found")
 
 
-def _get_match(db: Session, match_id: int):
-    match = db.query(models.Match).filter(models.Match.id == match_id).first()
+def _get_match(db: Session, match_id: int, lock: bool = False):
+    query = db.query(models.Match).filter(models.Match.id == match_id)
+    if lock:
+        query = query.with_for_update()
+    match = query.first()
     if match is None:
         _not_found()
     return match
@@ -214,7 +217,7 @@ def _innings_payload(db: Session, innings: score_models.Innings) -> dict:
 
 
 def _scorecard(db: Session, match_id: int) -> dict:
-    match = _get_match(db, match_id)
+    match = _get_match(db, match_id, lock=True)
     innings = (
         db.query(score_models.Innings)
         .filter(score_models.Innings.match_id == match_id)
@@ -246,7 +249,7 @@ def create_innings(
     db: Session = Depends(get_db),
     admin: str = Depends(require_admin),
 ):
-    match = _get_match(db, match_id)
+    match = _get_match(db, match_id, lock=True)
     if match.status == "COMPLETED":
         raise HTTPException(status_code=409, detail="A completed match cannot be started again")
 
@@ -304,7 +307,7 @@ def record_delivery(
     db: Session = Depends(get_db),
     admin: str = Depends(require_admin),
 ):
-    innings = db.query(score_models.Innings).filter(score_models.Innings.id == innings_id).first()
+    innings = db.query(score_models.Innings).filter(score_models.Innings.id == innings_id).with_for_update().first()
     if innings is None:
         _not_found()
     if innings.status != "IN_PROGRESS":
@@ -413,10 +416,10 @@ def undo_last_delivery(
     db: Session = Depends(get_db),
     admin: str = Depends(require_admin),
 ):
-    innings = db.query(score_models.Innings).filter(score_models.Innings.id == innings_id).first()
+    innings = db.query(score_models.Innings).filter(score_models.Innings.id == innings_id).with_for_update().first()
     if innings is None:
         _not_found()
-    match = _get_match(db, innings.match_id)
+    match = _get_match(db, innings.match_id, lock=True)
     if match.status == "COMPLETED":
         raise HTTPException(status_code=409, detail="A finalized match cannot be edited")
     if innings.innings_number == 1:
