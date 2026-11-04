@@ -153,6 +153,13 @@ def get_team_standings(db: Session = Depends(get_db)):
     return standings
 
 
+def team_roster_locked(db: Session, team_id: int) -> bool:
+    return db.query(scoring_models.Innings).filter(
+        (scoring_models.Innings.batting_team_id == team_id)
+        | (scoring_models.Innings.bowling_team_id == team_id)
+    ).first() is not None
+
+
 def serialize_player(player: models.Player) -> dict:
     return {
         "id": player.id,
@@ -177,6 +184,8 @@ def create_player(
         team = db.query(models.Team).filter(models.Team.id == player.team_id).first()
         if team is None:
             raise HTTPException(status_code=404, detail="Team not found")
+        if team_roster_locked(db, player.team_id):
+            raise HTTPException(status_code=409, detail="The playing roster is locked after an innings starts")
 
     db_player = models.Player(
         name=player.name.strip(),
@@ -207,6 +216,10 @@ def update_player(
         raise HTTPException(status_code=404, detail="Player not found")
 
     updates = player_update.model_dump(exclude_unset=True)
+    if updates and player.team_id is not None and team_roster_locked(db, player.team_id):
+        raise HTTPException(status_code=409, detail="The playing roster is locked after an innings starts")
+    if updates.get("team_id") is not None and team_roster_locked(db, updates["team_id"]):
+        raise HTTPException(status_code=409, detail="The destination team's roster is locked after an innings starts")
     has_score_history = db.query(scoring_models.Delivery).filter(
         (scoring_models.Delivery.striker_id == player_id)
         | (scoring_models.Delivery.non_striker_id == player_id)
@@ -239,6 +252,8 @@ def delete_player(
     player = db.query(models.Player).filter(models.Player.id == player_id).first()
     if player is None:
         raise HTTPException(status_code=404, detail="Player not found")
+    if player.team_id is not None and team_roster_locked(db, player.team_id):
+        raise HTTPException(status_code=409, detail="The playing roster is locked after an innings starts")
     has_score_history = db.query(scoring_models.Delivery).filter(
         (scoring_models.Delivery.striker_id == player_id)
         | (scoring_models.Delivery.non_striker_id == player_id)
