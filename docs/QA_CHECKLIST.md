@@ -20,6 +20,15 @@ Run the automated tests before release:
 - [x] Players can be registered and assigned to a team.
 - [x] Players can be reassigned and removed by an administrator.
 - [x] Unknown team assignments are rejected.
+- [x] An innings can be started only by an administrator.
+- [x] Deliveries accept valid run, wide, no-ball, bye and leg-bye inputs.
+- [x] Illegal deliveries do not increase the legal-ball count.
+- [x] No-ball runs are excluded from the batter's balls-faced count.
+- [x] Player/team assignments are checked against the innings teams.
+- [x] The last delivery can be undone with totals recalculated.
+- [x] A small registered squad can be dismissed all out correctly.
+- [x] Manual final-score entry cannot bypass a ball-by-ball scorecard.
+- [x] Two completed innings finalize through the standings engine.
 
 ## Automated frontend coverage
 
@@ -35,6 +44,9 @@ Run the automated tests before release:
 - [ ] Confirm the production frontend origin is listed in `FRONTEND_ORIGINS`.
 - [ ] Register two teams and add players to each team.
 - [ ] Schedule a fixture with a date and time.
+- [ ] Use the Scoring desk to record a complete two-innings match and verify its scorecard.
+- [ ] Verify wide, no-ball, bye, leg-bye and dismissal workflows manually.
+- [ ] Undo a delivery and verify all scorecard totals recalculate.
 - [ ] Record a win and verify the points table.
 - [ ] Record a tie in a separate fixture and verify one point per team.
 - [ ] Confirm a completed match cannot be scored again.
