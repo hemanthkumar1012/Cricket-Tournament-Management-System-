@@ -215,3 +215,181 @@ def test_player_changes_require_admin_authentication():
             json={"name": "Arjun Rao", "role": "Batter"},
         )
         assert denied.status_code == 401
+
+
+def register_player(client, headers, name, team_id):
+    response = client.post(
+        "/api/players",
+        headers=headers,
+        json={"name": name, "role": "Batter", "team_id": team_id},
+    )
+    assert response.status_code == 201, response.text
+    return response.json()
+
+
+def add_dot_balls(client, headers, innings_id, striker_id, non_striker_id, bowler_id, count=6):
+    for _ in range(count):
+        response = client.post(
+            f"/api/innings/{innings_id}/deliveries",
+            headers=headers,
+            json={
+                "striker_id": striker_id,
+                "non_striker_id": non_striker_id,
+                "bowler_id": bowler_id,
+                "batter_runs": 0,
+            },
+        )
+        assert response.status_code == 201, response.text
+    return response.json()
+
+
+def test_ball_by_ball_scoring_tracks_extras_batter_stats_and_undo():
+    reset_database()
+    with TestClient(app) as client:
+        headers = login(client)
+        falcons = create_team(client, headers, "Falcons")
+        tigers = create_team(client, headers, "Tigers")
+        striker = register_player(client, headers, "Aarav Batter", falcons["id"])
+        non_striker = register_player(client, headers, "Dev Batter", falcons["id"])
+        bowler = register_player(client, headers, "Rohan Bowler", tigers["id"])
+        match = create_match(client, headers, falcons["id"], tigers["id"])
+
+        started = client.post(
+            f"/api/matches/{match['id']}/innings",
+            headers=headers,
+            json={"batting_team_id": falcons["id"], "overs_limit": 2},
+        )
+        assert started.status_code == 201, started.text
+        innings = started.json()["innings"][0]
+        assert innings["status"] == "IN_PROGRESS"
+
+        boundary = client.post(
+            f"/api/innings/{innings['id']}/deliveries",
+            headers=headers,
+            json={
+                "striker_id": striker["id"],
+                "non_striker_id": non_striker["id"],
+                "bowler_id": bowler["id"],
+                "batter_runs": 4,
+            },
+        )
+        assert boundary.status_code == 201, boundary.text
+
+        wide = client.post(
+            f"/api/innings/{innings['id']}/deliveries",
+            headers=headers,
+            json={
+                "striker_id": striker["id"],
+                "non_striker_id": non_striker["id"],
+                "bowler_id": bowler["id"],
+                "extra_type": "WIDE",
+            },
+        )
+        assert wide.status_code == 201, wide.text
+        current = wide.json()["innings"][0]
+        assert current["total_runs"] == 5
+        assert current["extras"] == 1
+        assert current["legal_balls"] == 1
+        assert current["overs"] == "0.1"
+        batter_line = next(row for row in current["batting"] if row["player_id"] == striker["id"])
+        assert batter_line["runs"] == 4
+        assert batter_line["balls_faced"] == 1
+
+        undone = client.delete(
+            f"/api/innings/{innings['id']}/last-delivery",
+            headers=headers,
+        )
+        assert undone.status_code == 200, undone.text
+        after_undo = undone.json()["innings"][0]
+        assert after_undo["total_runs"] == 4
+        assert after_undo["extras"] == 0
+        assert after_undo["legal_balls"] == 1
+
+
+def test_ball_by_ball_scoring_requires_admin_and_valid_team_players():
+    reset_database()
+    with TestClient(app) as client:
+        headers = login(client)
+        falcons = create_team(client, headers, "Falcons")
+        tigers = create_team(client, headers, "Tigers")
+        striker = register_player(client, headers, "Aarav Batter", falcons["id"])
+        non_striker = register_player(client, headers, "Dev Batter", falcons["id"])
+        bowler = register_player(client, headers, "Rohan Bowler", tigers["id"])
+        match = create_match(client, headers, falcons["id"], tigers["id"])
+
+        denied = client.post(
+            f"/api/matches/{match['id']}/innings",
+            json={"batting_team_id": falcons["id"], "overs_limit": 1},
+        )
+        assert denied.status_code == 401
+
+        started = client.post(
+            f"/api/matches/{match['id']}/innings",
+            headers=headers,
+            json={"batting_team_id": falcons["id"], "overs_limit": 1},
+        )
+        assert started.status_code == 201
+        innings_id = started.json()["innings"][0]["id"]
+
+        wrong_bowler = client.post(
+            f"/api/innings/{innings_id}/deliveries",
+            headers=headers,
+            json={
+                "striker_id": striker["id"],
+                "non_striker_id": non_striker["id"],
+                "bowler_id": striker["id"],
+            },
+        )
+        assert wrong_bowler.status_code == 422
+
+
+def test_two_completed_innings_finalize_result_and_update_standings():
+    reset_database()
+    with TestClient(app) as client:
+        headers = login(client)
+        falcons = create_team(client, headers, "Falcons")
+        tigers = create_team(client, headers, "Tigers")
+        falcons_batter = register_player(client, headers, "Aarav Batter", falcons["id"])
+        falcons_partner = register_player(client, headers, "Dev Batter", falcons["id"])
+        falcons_bowler = register_player(client, headers, "Rohan Bowler", falcons["id"])
+        tigers_batter = register_player(client, headers, "Kabir Batter", tigers["id"])
+        tigers_partner = register_player(client, headers, "Ishaan Batter", tigers["id"])
+        tigers_bowler = register_player(client, headers, "Vihaan Bowler", tigers["id"])
+        match = create_match(client, headers, falcons["id"], tigers["id"])
+
+        first = client.post(
+            f"/api/matches/{match['id']}/innings",
+            headers=headers,
+            json={"batting_team_id": falcons["id"], "overs_limit": 1},
+        )
+        assert first.status_code == 201, first.text
+        first_innings = first.json()["innings"][0]
+        first_scorecard = add_dot_balls(
+            client, headers, first_innings["id"],
+            falcons_batter["id"], falcons_partner["id"], tigers_bowler["id"],
+        )
+        assert first_scorecard["innings"][0]["status"] == "COMPLETED"
+
+        second = client.post(
+            f"/api/matches/{match['id']}/innings",
+            headers=headers,
+            json={"batting_team_id": tigers["id"], "overs_limit": 1},
+        )
+        assert second.status_code == 201, second.text
+        second_innings = second.json()["innings"][1]
+        second_scorecard = add_dot_balls(
+            client, headers, second_innings["id"],
+            tigers_batter["id"], tigers_partner["id"], falcons_bowler["id"],
+        )
+        assert second_scorecard["innings"][1]["status"] == "COMPLETED"
+
+        finished = client.post(f"/api/matches/{match['id']}/finish", headers=headers)
+        assert finished.status_code == 200, finished.text
+        assert finished.json()["status"] == "COMPLETED"
+        assert finished.json()["winner"] is None
+
+        teams = {item["id"]: item for item in client.get("/api/teams").json()}
+        assert teams[falcons["id"]]["draws"] == 1
+        assert teams[tigers["id"]]["draws"] == 1
+        assert teams[falcons["id"]]["points"] == 1
+        assert teams[tigers["id"]]["points"] == 1
