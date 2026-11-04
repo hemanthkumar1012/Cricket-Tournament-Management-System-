@@ -41,7 +41,7 @@ class DeliveryCreate(BaseModel):
             if self.extra_type == "NO_BALL" and self.dismissal_type not in {"run_out", "obstructing_field"}:
                 raise ValueError("A no-ball can only record a run out or obstructing-field dismissal here")
             if self.extra_type == "WIDE" and self.dismissal_type not in {
-                "run_out", "stumped", "obstructing_field", "hit_wicket"
+                "run_out", "stumped", "obstructing_field"
             }:
                 raise ValueError("That dismissal is not valid on a wide")
         elif self.dismissal_type or self.dismissed_player_id is not None:
