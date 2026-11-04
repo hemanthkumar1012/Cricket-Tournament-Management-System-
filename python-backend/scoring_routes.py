@@ -143,7 +143,8 @@ def _innings_payload(db: Session, innings: score_models.Innings) -> dict:
         last = deliveries[-1]
         current_striker = last.striker_id
         current_non_striker = last.non_striker_id
-        if last.total_runs % 2:
+        completed_runs = last.batter_runs + last.extras_runs
+        if completed_runs % 2:
             current_striker, current_non_striker = current_non_striker, current_striker
         if last.is_legal and innings.legal_balls % 6 == 0:
             current_striker, current_non_striker = current_non_striker, current_striker
@@ -493,4 +494,5 @@ def _finalize_from_scoring(match, scores: dict, db: Session):
         scores[match.team1_id],
         scores[match.team2_id],
         db,
+        allow_scored=True,
     )
