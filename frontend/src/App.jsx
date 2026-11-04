@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Dashboard from "./components/Dashboard";
 import TeamManagement from "./components/TeamManagement";
+import PlayerManagement from "./components/PlayerManagement";
 import MatchManagement from "./components/MatchManagement";
 import PointsTable from "./components/PointsTable";
 import LiveScores from "./components/LiveScores";
@@ -13,6 +14,7 @@ const pages = {
   dashboard: { title: "Tournament overview", eyebrow: "Operations" },
   live: { title: "Live match center", eyebrow: "Match center" },
   teams: { title: "Team management", eyebrow: "Competition setup" },
+  players: { title: "Player roster", eyebrow: "Squad management" },
   matches: { title: "Fixtures & results", eyebrow: "Match operations" },
   standings: { title: "Points table", eyebrow: "Tournament rankings" },
 };
@@ -40,6 +42,7 @@ export default function App() {
     switch (activePage) {
       case "live": return <LiveScores />;
       case "teams": return <TeamManagement />;
+      case "players": return <PlayerManagement />;
       case "matches": return <MatchManagement />;
       case "standings": return <PointsTable />;
       default: return <Dashboard onNavigate={setActivePage} />;

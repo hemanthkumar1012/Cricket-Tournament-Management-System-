@@ -8,7 +8,7 @@ Run the automated tests before release:
 ## Automated backend coverage
 
 - [x] Admin sign-in issues a bearer token.
-- [x] Unauthenticated clients cannot create teams.
+- [x] Unauthenticated clients cannot create teams or players.
 - [x] Team names are unique, case-insensitively.
 - [x] A fixture cannot contain the same team twice.
 - [x] Unknown team IDs cannot be scheduled.
@@ -17,6 +17,9 @@ Run the automated tests before release:
 - [x] A tied match awards one point to each team.
 - [x] A completed result cannot be applied a second time.
 - [x] Standings expose wins, losses, draws, played matches and points.
+- [x] Players can be registered and assigned to a team.
+- [x] Players can be reassigned and removed by an administrator.
+- [x] Unknown team assignments are rejected.
 
 ## Automated frontend coverage
 
@@ -28,8 +31,10 @@ Run the automated tests before release:
 
 - [ ] Configure a persistent PostgreSQL database in the deployment environment.
 - [ ] Replace the local admin password and JWT signing secret.
+- [ ] Set the Vercel project root to the repository root.
 - [ ] Confirm the production frontend origin is listed in `FRONTEND_ORIGINS`.
-- [ ] Register two teams and schedule a fixture with a date and time.
+- [ ] Register two teams and add players to each team.
+- [ ] Schedule a fixture with a date and time.
 - [ ] Record a win and verify the points table.
 - [ ] Record a tie in a separate fixture and verify one point per team.
 - [ ] Confirm a completed match cannot be scored again.

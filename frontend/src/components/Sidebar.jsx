@@ -5,6 +5,7 @@ const navItems=[
   ['dashboard','Overview','grid'],
   ['live','Live center','activity'],
   ['teams','Teams','users'],
+  ['players','Players','users'],
   ['matches','Fixtures','calendar'],
   ['standings','Standings','trophy']
 ];

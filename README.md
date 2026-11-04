@@ -1,6 +1,6 @@
 # CricPulse — Cricket Tournament Management System
 
-CricPulse is a full-stack tournament administration app for registering teams, scheduling fixtures, recording results, calculating standings and viewing a live cricket feed.
+CricPulse is a full-stack tournament administration app for registering teams and players, scheduling fixtures, recording results, calculating standings and viewing a live cricket feed.
 
 ## Stack
 
@@ -16,7 +16,8 @@ The repository uses **one backend: FastAPI**. The historical Spring Boot impleme
 
 - Admin sign-in and protected write operations
 - Team registration with duplicate-name validation
-- Player registration and team assignment API
+- Player registration, role selection, team assignment, reassignment and removal
+- Searchable player roster
 - Fixture creation with date and time
 - Match result entry with non-negative score validation
 - Automatic win, loss, tie, matches-played and points calculation
@@ -106,7 +107,7 @@ Configure these environment variables in the deployment platform:
 
 **Important:** SQLite is a local-development fallback only. Vercel deployments reject database-backed API requests when a persistent database URL is not configured. Do not rely on a serverless function's local filesystem for tournament data.
 
-Vercel builds the React app from `frontend/` and sends API requests to the FastAPI function in `api/index.py`. Set the production environment variables above in Vercel before using the application.
+Vercel builds the React app from `frontend/` and sends API requests to the FastAPI function in `api/index.py`. Set the production environment variables above in Vercel before using the application. The Vercel project root should be the repository root so both `api/` and `frontend/` are included.
 
 ## API overview
 
@@ -119,6 +120,7 @@ Vercel builds the React app from `frontend/` and sends API requests to the FastA
 | GET / POST | `/api/teams` | Public read / admin write |
 | GET | `/api/teams/standings` | Public |
 | GET / POST | `/api/players` | Public read / admin write |
+| PATCH / DELETE | `/api/players/{id}` | Admin token |
 | GET / POST | `/api/matches` | Public read / admin write |
 | PUT | `/api/matches/{id}/result` | Admin token |
 | GET | `/api/live` | Public |

@@ -1,7 +1,7 @@
 import os
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
@@ -152,7 +152,21 @@ def get_team_standings(db: Session = Depends(get_db)):
     return standings
 
 
-@router.post("/players", response_model=schemas.PlayerResponse, status_code=status.HTTP_201_CREATED)
+def serialize_player(player: models.Player) -> dict:
+    return {
+        "id": player.id,
+        "name": player.name,
+        "role": player.role,
+        "team_id": player.team_id,
+        "team": (
+            {"id": player.team.id, "name": player.team.name, "teamName": player.team.name}
+            if player.team
+            else None
+        ),
+    }
+
+
+@router.post("/players", status_code=status.HTTP_201_CREATED)
 def create_player(
     player: schemas.PlayerCreate,
     db: Session = Depends(get_db),
@@ -171,12 +185,54 @@ def create_player(
     db.add(db_player)
     db.commit()
     db.refresh(db_player)
-    return db_player
+    return serialize_player(db_player)
 
 
-@router.get("/players", response_model=List[schemas.PlayerResponse])
+@router.get("/players")
 def get_players(db: Session = Depends(get_db)):
-    return db.query(models.Player).order_by(models.Player.name.asc()).all()
+    players = db.query(models.Player).order_by(models.Player.name.asc()).all()
+    return [serialize_player(player) for player in players]
+
+
+@router.patch("/players/{player_id}")
+def update_player(
+    player_id: int,
+    player_update: schemas.PlayerUpdate,
+    db: Session = Depends(get_db),
+    admin: str = Depends(require_admin),
+):
+    player = db.query(models.Player).filter(models.Player.id == player_id).first()
+    if player is None:
+        raise HTTPException(status_code=404, detail="Player not found")
+
+    updates = player_update.model_dump(exclude_unset=True)
+    if "name" in updates and updates["name"] is not None:
+        player.name = updates["name"].strip()
+    if "role" in updates and updates["role"] is not None:
+        player.role = updates["role"].strip()
+    if "team_id" in updates:
+        team_id = updates["team_id"]
+        if team_id is not None and db.query(models.Team).filter(models.Team.id == team_id).first() is None:
+            raise HTTPException(status_code=404, detail="Team not found")
+        player.team_id = team_id
+
+    db.commit()
+    db.refresh(player)
+    return serialize_player(player)
+
+
+@router.delete("/players/{player_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_player(
+    player_id: int,
+    db: Session = Depends(get_db),
+    admin: str = Depends(require_admin),
+):
+    player = db.query(models.Player).filter(models.Player.id == player_id).first()
+    if player is None:
+        raise HTTPException(status_code=404, detail="Player not found")
+    db.delete(player)
+    db.commit()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.post("/matches", status_code=status.HTTP_201_CREATED)

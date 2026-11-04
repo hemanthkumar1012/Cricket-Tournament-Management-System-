@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.0 — Player roster management
+
+- Added admin-managed player registration.
+- Added playing-role selection and team assignment.
+- Added player reassignment and removal endpoints.
+- Added searchable player roster UI.
+- Added API tests for player creation, assignment, reassignment, deletion and authorization.
+
 ## 2.0.0 — Backend and production-readiness upgrade
 
 - Standardized on FastAPI; removed the duplicate Spring Boot backend and committed Java build output.

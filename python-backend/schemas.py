@@ -28,6 +28,12 @@ class PlayerCreate(BaseModel):
     team_id: Optional[int] = None
 
 
+class PlayerUpdate(BaseModel):
+    name: Optional[str] = Field(default=None, min_length=2, max_length=80)
+    role: Optional[str] = Field(default=None, min_length=2, max_length=40)
+    team_id: Optional[int] = None
+
+
 class PlayerResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

@@ -163,3 +163,55 @@ def test_negative_scores_are_rejected():
             headers=headers,
         )
         assert response.status_code == 422
+
+
+def test_player_can_be_registered_assigned_reassigned_and_removed():
+    reset_database()
+    with TestClient(app) as client:
+        headers = login(client)
+        falcons = create_team(client, headers, "Falcons")
+        tigers = create_team(client, headers, "Tigers")
+
+        created = client.post(
+            "/api/players",
+            headers=headers,
+            json={"name": "Arjun Rao", "role": "All-rounder", "team_id": falcons["id"]},
+        )
+        assert created.status_code == 201
+        player = created.json()
+        assert player["team_id"] == falcons["id"]
+        assert player["team"]["teamName"] == "Falcons"
+
+        reassigned = client.patch(
+            f"/api/players/{player['id']}",
+            headers=headers,
+            json={"team_id": tigers["id"]},
+        )
+        assert reassigned.status_code == 200
+        assert reassigned.json()["team"]["teamName"] == "Tigers"
+
+        removed = client.delete(f"/api/players/{player['id']}", headers=headers)
+        assert removed.status_code == 204
+        assert client.get("/api/players").json() == []
+
+
+def test_player_cannot_be_assigned_to_unknown_team():
+    reset_database()
+    with TestClient(app) as client:
+        headers = login(client)
+        response = client.post(
+            "/api/players",
+            headers=headers,
+            json={"name": "Arjun Rao", "role": "Batter", "team_id": 9999},
+        )
+        assert response.status_code == 404
+
+
+def test_player_changes_require_admin_authentication():
+    reset_database()
+    with TestClient(app) as client:
+        denied = client.post(
+            "/api/players",
+            json={"name": "Arjun Rao", "role": "Batter"},
+        )
+        assert denied.status_code == 401
