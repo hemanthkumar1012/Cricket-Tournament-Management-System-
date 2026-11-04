@@ -1,95 +1,36 @@
-# CricPulse development log
+# Changelog
 
-This log records the incremental work behind the tournament dashboard redesign.
+## 2.2.0 — Live innings and ball-by-ball scoring
 
-- Rebuilt the application shell and navigation model.
-- Added a shared visual system for tournament operations.
-- Centralized API access and error handling.
-- Reworked dashboard, teams, fixtures, standings and live score experiences.
-- Refreshed responsive behavior and application metadata.
-- Document dashboard information hierarchy.
-- Document navigation states.
-- Document responsive breakpoints.
-- Document form validation rules.
-- Document score-entry workflow.
-- Document empty states for all major workspaces.
-- Document loading states.
-- Document API error behavior.
-- Document status badge semantics.
-- Document tournament admin persona.
-- Document match result lifecycle.
-- Document standings normalization.
-- Document team normalization.
-- Document live score normalization.
-- Document shared API client responsibilities.
-- Document mobile navigation behavior.
-- Document mobile card stacking.
-- Document desktop sidebar geometry.
-- Document topbar behavior.
-- Document hero composition.
-- Document KPI card pattern.
-- Document fixture row pattern.
-- Document standings table pattern.
-- Document team card pattern.
-- Document live score card pattern.
-- Document accessibility labels.
-- Document keyboard-friendly controls.
-- Document focusable dialog controls.
-- Document semantic navigation.
-- Document form label strategy.
-- Document API response parsing.
-- Document HTTP status propagation.
-- Document encoded score parameters.
-- Document parallel dashboard loading.
-- Document parallel fixture loading.
-- Document fixture validation.
-- Document team validation.
-- Document result validation.
-- Document loading submit states.
-- Document optimistic list insertion.
-- Document local result replacement.
-- Document success feedback.
-- Document error feedback.
-- Document refresh controls.
-- Document dashboard navigation actions.
-- Document reusable icon naming.
-- Document CSS token strategy.
-- Document card surface treatment.
-- Document typography hierarchy.
-- Document status color mapping.
-- Document responsive table behavior.
-- Document responsive form behavior.
-- Document modal interaction pattern.
-- Document empty-state messaging.
-- Document browser metadata.
-- Document live feed normalization.
-- Document team-name extraction.
-- Document score extraction.
-- Document series and venue metadata.
-- Document dashboard leader summary.
-- Document aggregate tournament points.
-- Document scheduled-match counting.
-- Document completed-match counting.
-- Document recent fixture limit.
-- Document standings snapshot limit.
-- Document deployment-safe environment usage.
-- Document backend preservation.
-- Document Vite entrypoint.
-- Document package compatibility.
-- Document CSS-only component styling.
-- Document API helper boundaries.
-- Document match update query encoding.
-- Document normalized standings fields.
-- Document normalized team fields.
-- Document error fallback copy.
-- Document visual QA checklist.
-- Document mobile QA checklist.
-- Document fixture QA checklist.
-- Document team QA checklist.
-- Document standings QA checklist.
-- Document live score QA checklist.
-- Document dashboard QA checklist.
-- Document release review scope.
-- Document maintainability goals.
-- Document future extension points.
-- Finalize the 100-commit redesign history and release review notes.
+- Added persistent innings and delivery records with database constraints.
+- Added scorer workflows for starting innings and recording batter, bowler, extras and dismissals.
+- Added scorecards with batting and bowling figures, run rate, extras and recent deliveries.
+- Added second-innings chase targets and innings completion rules for overs, wickets and target reached.
+- Added undo-last-delivery with score recalculation.
+- Finalized ball-by-ball match totals through the existing standings engine.
+- Prevented manual final-score writes from bypassing a live scorecard.
+- Protected player history from reassignment or deletion after recorded deliveries.
+- Added API regression tests for extras, undo, authorization, all-out handling and final standings.
+
+
+## 2.1.0 — Player roster management
+
+- Added admin-managed player registration.
+- Added playing-role selection and team assignment.
+- Added player reassignment and removal endpoints.
+- Added searchable player roster UI.
+- Added API tests for player creation, assignment, reassignment, deletion and authorization.
+
+## 2.0.0 — Backend and production-readiness upgrade
+
+- Standardized on FastAPI; removed the duplicate Spring Boot backend and committed Java build output.
+- Added explicit SQLAlchemy relationships for teams, players, matches and winners.
+- Persisted match scores and scheduled date/time.
+- Added validation for duplicate teams, self-fixtures, missing teams and negative scores.
+- Made result recording transactional and idempotent for completed matches.
+- Added win/loss/tie statistics and consistent points-table rules.
+- Added admin JWT authentication for write operations and a frontend sign-in flow.
+- Added PostgreSQL configuration and a Docker Compose stack.
+- Added backend API tests and frontend live-score normalization tests.
+- Added live-score auto-refresh and improved provider response normalization.
+- Documented local setup, deployment configuration, API routes and testing.

@@ -1,107 +1,55 @@
 # CricPulse QA checklist
 
-A living acceptance checklist for the tournament operations dashboard.
+Run the automated tests before release:
 
-## Dashboard
+- Backend: `cd python-backend && pytest -q`
+- Frontend: `cd frontend && npm test && npm run build`
 
-- [ ] QA-001: Dashboard renders the tournament summary without blocking on a single failed data source.
+## Automated backend coverage
 
-- [ ] QA-002: Dashboard shows a clear loading state while tournament metrics are being requested.
-- [ ] QA-003: Dashboard surfaces a recoverable error when the summary request fails.
-- [ ] QA-004: Dashboard shows an intentional empty state when no teams exist.
-- [ ] QA-005: Dashboard shows an intentional empty state when no fixtures exist.
-- [ ] QA-006: KPI cards use consistent labels, values, and supporting context.
-- [ ] QA-007: Completion percentage remains readable at narrow mobile widths.
-- [ ] QA-008: Recent matches are ordered consistently for the tournament operator.
-- [ ] QA-009: Leaderboard summary highlights the current points leader without hiding other teams.
-- [ ] QA-010: Operations cards remain readable when action descriptions wrap to multiple lines.
-- [ ] QA-011: Dashboard navigation actions move to the intended workspace.
-- [ ] QA-012: Refresh actions do not duplicate dashboard records.
-- [ ] QA-013: Dashboard remains usable when one secondary panel has no data.
-- [ ] QA-014: Dashboard metrics do not display undefined or null values.
-- [ ] QA-015: Dashboard cards preserve spacing across desktop and mobile breakpoints.
-- [ ] QA-016: Sidebar exposes the active workspace clearly.
-- [ ] QA-017: Sidebar navigation remains usable after switching between all workspaces.
-- [ ] QA-018: Mobile navigation opens and closes without changing the current route state.
-- [ ] QA-019: Mobile navigation closes after selecting a workspace.
-- [ ] QA-020: Current season context remains visible in the desktop sidebar.
-- [ ] QA-021: System status treatment is visually distinct from navigation items.
-- [ ] QA-022: Sidebar labels remain readable at the smallest supported viewport.
-- [ ] QA-023: Topbar date context renders without overflowing.
-- [ ] QA-024: Admin identity remains visible in the desktop command bar.
-- [ ] QA-025: Topbar menu control has an accessible label.
-- [ ] QA-026: Topbar controls preserve keyboard focus visibility.
-- [ ] QA-027: Navigation icons retain consistent sizing across states.
-- [ ] QA-028: Active navigation state is distinguishable without relying only on color.
-- [ ] QA-029: Team registration rejects an empty team name.
-- [ ] QA-030: Team registration rejects an empty captain name.
-- [ ] QA-031: Team registration prevents accidental submission while a request is pending.
-- [ ] QA-032: Team registration reports backend validation failures clearly.
-- [ ] QA-033: Team registration clears the form after a successful creation.
-- [ ] QA-034: Newly registered teams appear without requiring a full page reload.
-- [ ] QA-035: Team cards expose captain information consistently.
-- [ ] QA-036: Team cards display a stable roster position.
-- [ ] QA-037: Team cards retain readable metadata on narrow screens.
-- [ ] QA-038: Team management shows a useful empty state when no teams are registered.
-- [ ] QA-039: Team management shows a useful loading state during fetch operations.
-- [ ] QA-040: Team management exposes a retry path after a fetch failure.
-- [ ] QA-041: Team names remain legible when unusually long names are entered.
-- [ ] QA-042: Team form controls have visible labels and usable focus states.
-- [ ] QA-043: Fixture creation requires a home team.
-- [ ] QA-044: Fixture creation requires an away team.
-- [ ] QA-045: Fixture creation rejects selecting the same team twice.
-- [ ] QA-046: Fixture creation requires a scheduled date and time.
-- [ ] QA-047: Fixture creation submits the expected team identifiers.
-- [ ] QA-048: Fixture creation shows a pending state during submission.
-- [ ] QA-049: Newly created fixtures appear in the match desk.
-- [ ] QA-050: Match filters switch between all, open, and completed fixtures.
-- [ ] QA-051: Match filters preserve readable active-state treatment.
-- [ ] QA-052: Match cards show both participating teams.
-- [ ] QA-053: Match cards show the scheduled date and time.
-- [ ] QA-054: Match cards distinguish open fixtures from completed results.
-- [ ] QA-055: Score entry requires a valid home score.
-- [ ] QA-056: Score entry requires a valid away score.
-- [ ] QA-057: Score entry rejects negative score values.
-- [ ] QA-058: Score entry prevents submission while the update request is pending.
-- [ ] QA-059: Successful score entry closes the dialog.
-- [ ] QA-060: Successful score entry updates the visible match result.
-- [ ] QA-061: Failed score updates keep the dialog available for correction.
-- [ ] QA-062: Score-entry dialog can be dismissed without changing match data.
-- [ ] QA-063: Score-entry dialog keeps labels associated with inputs.
-- [ ] QA-064: Fixture list provides a useful empty state when no matches exist.
-- [ ] QA-065: Fixture list provides a retry action after loading failure.
-- [ ] QA-066: Fixture refresh does not create duplicate cards.
-- [ ] QA-067: Standings display team names consistently with the team workspace.
-- [ ] QA-068: Standings display played matches for each team.
-- [ ] QA-069: Standings display wins for each team.
-- [ ] QA-070: Standings display losses for each team.
-- [ ] QA-071: Standings display points for each team.
-- [ ] QA-072: Standings maintain a stable ranking order.
-- [ ] QA-073: Standings leader summary reflects the current first-ranked team.
-- [ ] QA-074: Standings remain readable when many teams are registered.
-- [ ] QA-075: Standings show a useful empty state before the first result exists.
-- [ ] QA-076: Standings expose a refresh action.
-- [ ] QA-077: Standings refresh does not reset the surrounding workspace layout.
-- [ ] QA-078: Live score room clearly indicates its feed state.
-- [ ] QA-079: Live score cards identify the active match.
-- [ ] QA-080: Live score cards display both team names.
-- [ ] QA-081: Live score cards display the current score.
-- [ ] QA-082: Live score cards show venue or series context when supplied by the API.
-- [ ] QA-083: Live score room shows an intentional empty state when no live data exists.
-- [ ] QA-084: Live score room shows a recoverable error state after a failed request.
-- [ ] QA-085: Live score refresh does not duplicate live cards.
-- [ ] QA-086: Live score content remains readable on mobile devices.
-- [ ] QA-087: Shared API errors are converted into user-facing fallback messages.
-- [ ] QA-088: API helpers preserve the backend response shape needed by the UI.
-- [ ] QA-089: URL query parameters are encoded before score updates are sent.
-- [ ] QA-090: Parallel dashboard requests do not block unrelated panels.
-- [ ] QA-091: Loading indicators disappear after successful requests.
-- [ ] QA-092: Loading indicators disappear after failed requests.
-- [ ] QA-093: Empty states do not appear simultaneously with active loading states.
-- [ ] QA-094: Error states do not expose raw stack traces to tournament operators.
-- [ ] QA-095: Buttons communicate disabled or pending states during mutations.
-- [ ] QA-096: Modal content remains within the viewport on small screens.
-- [ ] QA-097: Keyboard users can reach primary form actions in a logical order.
-- [ ] QA-098: Interactive controls have visible focus treatment.
-- [ ] QA-099: Text and controls maintain sufficient contrast against their surfaces.
-- [ ] QA-100: The complete tournament workflow can be exercised from team creation through fixture result and standings refresh.
+- [x] Admin sign-in issues a bearer token.
+- [x] Unauthenticated clients cannot create teams or players.
+- [x] Team names are unique, case-insensitively.
+- [x] A fixture cannot contain the same team twice.
+- [x] Unknown team IDs cannot be scheduled.
+- [x] Negative scores are rejected.
+- [x] A completed match updates both teams' statistics.
+- [x] A tied match awards one point to each team.
+- [x] A completed result cannot be applied a second time.
+- [x] Standings expose wins, losses, draws, played matches and points.
+- [x] Players can be registered and assigned to a team.
+- [x] Players can be reassigned and removed by an administrator.
+- [x] Unknown team assignments are rejected.
+- [x] An innings can be started only by an administrator.
+- [x] Deliveries accept valid run, wide, no-ball, bye and leg-bye inputs.
+- [x] Illegal deliveries do not increase the legal-ball count.
+- [x] No-ball runs are excluded from the batter's balls-faced count.
+- [x] Player/team assignments are checked against the innings teams.
+- [x] The last delivery can be undone with totals recalculated.
+- [x] A small registered squad can be dismissed all out correctly.
+- [x] Manual final-score entry cannot bypass a ball-by-ball scorecard.
+- [x] Two completed innings finalize through the standings engine.
+
+## Automated frontend coverage
+
+- [x] Live-score normalization accepts direct and wrapped provider payloads.
+- [x] String scores and zero scores are preserved.
+- [x] Incomplete provider responses receive safe fallback labels.
+
+## Manual release checks
+
+- [ ] Configure a persistent PostgreSQL database in the deployment environment.
+- [ ] Replace the local admin password and JWT signing secret.
+- [ ] Set the Vercel project root to the repository root.
+- [ ] Confirm the production frontend origin is listed in `FRONTEND_ORIGINS`.
+- [ ] Register two teams and add players to each team.
+- [ ] Schedule a fixture with a date and time.
+- [ ] Use the Scoring desk to record a complete two-innings match and verify its scorecard.
+- [ ] Verify wide, no-ball, bye, leg-bye and dismissal workflows manually.
+- [ ] Undo a delivery and verify all scorecard totals recalculate.
+- [ ] Record a win and verify the points table.
+- [ ] Record a tie in a separate fixture and verify one point per team.
+- [ ] Confirm a completed match cannot be scored again.
+- [ ] Confirm the live-score screen handles an empty or unavailable feed.
+- [ ] Test sign-out and expired-token behavior.
+- [ ] Test the interface at desktop, tablet and mobile widths.

@@ -11,6 +11,7 @@ plus:<><path d="M12 5v14M5 12h14"/></>,
 close:<><path d="m6 6 12 12M18 6 6 18"/></>,
 arrow:<><path d="M5 12h14M13 6l6 6-6 6"/></>,
 check:<path d="m5 12 4 4L19 6"/>,
-chevron:<path d="m7 10 5 5 5-5"/>
+chevron:<path d="m7 10 5 5 5-5"/>,
+"log-out":<><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></>
 };
 export default function Icon({name,size=18,strokeWidth=1.8}){return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]||paths.grid}</svg>;}
