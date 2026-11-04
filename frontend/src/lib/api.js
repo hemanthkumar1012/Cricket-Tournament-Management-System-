@@ -85,6 +85,12 @@ export const api = {
   deletePlayer: (id) => request(`/api/players/${id}`, { method: "DELETE" }),
   matches: () => request("/api/matches"),
   createMatch: (body) => request("/api/matches", { method: "POST", body: JSON.stringify(body) }),
+
+  scorecard: (id) => request(\`/api/matches/\${id}/scorecard\`),
+  startInnings: (id, body) => request(\`/api/matches/\${id}/innings\`, { method: "POST", body: JSON.stringify(body) }),
+  recordDelivery: (id, body) => request(\`/api/innings/\${id}/deliveries\`, { method: "POST", body: JSON.stringify(body) }),
+  undoLastDelivery: (id) => request(\`/api/innings/\${id}/last-delivery\`, { method: "DELETE" }),
+  finishMatch: (id) => request(\`/api/matches/\${id}/finish\`, { method: "POST" }),
   updateResult: (id, team1Score, team2Score) => {
     const params = new URLSearchParams({
       team1Score: String(team1Score),
