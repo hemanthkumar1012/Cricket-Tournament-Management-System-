@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 import cricket_api
 import models
 import schemas
+import scoring_models
 from database import engine, get_db
 from security import (
     TOKEN_EXPIRE_HOURS,
@@ -206,6 +207,14 @@ def update_player(
         raise HTTPException(status_code=404, detail="Player not found")
 
     updates = player_update.model_dump(exclude_unset=True)
+    has_score_history = db.query(scoring_models.Delivery).filter(
+        (scoring_models.Delivery.striker_id == player_id)
+        | (scoring_models.Delivery.non_striker_id == player_id)
+        | (scoring_models.Delivery.bowler_id == player_id)
+        | (scoring_models.Delivery.dismissed_player_id == player_id)
+    ).first() is not None
+    if has_score_history and "team_id" in updates and updates["team_id"] != player.team_id:
+        raise HTTPException(status_code=409, detail="A player with scorecard history cannot be reassigned")
     if "name" in updates and updates["name"] is not None:
         player.name = updates["name"].strip()
     if "role" in updates and updates["role"] is not None:
@@ -230,6 +239,14 @@ def delete_player(
     player = db.query(models.Player).filter(models.Player.id == player_id).first()
     if player is None:
         raise HTTPException(status_code=404, detail="Player not found")
+    has_score_history = db.query(scoring_models.Delivery).filter(
+        (scoring_models.Delivery.striker_id == player_id)
+        | (scoring_models.Delivery.non_striker_id == player_id)
+        | (scoring_models.Delivery.bowler_id == player_id)
+        | (scoring_models.Delivery.dismissed_player_id == player_id)
+    ).first() is not None
+    if has_score_history:
+        raise HTTPException(status_code=409, detail="A player with scorecard history cannot be removed")
     db.delete(player)
     db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
@@ -271,7 +288,23 @@ def get_matches(db: Session = Depends(get_db)):
     return [serialize_match(match) for match in matches]
 
 
-def record_match_result(match_id: int, team1_score: int, team2_score: int, db: Session):
+def record_match_result(
+    match_id: int,
+    team1_score: int,
+    team2_score: int,
+    db: Session,
+    allow_scored: bool = False,
+):
+    if not allow_scored:
+        has_ball_by_ball = db.query(scoring_models.Innings).filter(
+            scoring_models.Innings.match_id == match_id
+        ).first() is not None
+        if has_ball_by_ball:
+            raise HTTPException(
+                status_code=409,
+                detail="This fixture uses ball-by-ball scoring. Finalize it from the Scoring desk.",
+            )
+
     match = (
         db.query(models.Match)
         .filter(models.Match.id == match_id)
