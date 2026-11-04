@@ -153,6 +153,8 @@ export default function MatchManagement() {
             </div>
             {match.status === "COMPLETED" ? (
               <div className="result-note">Result · <strong>{match.winner?.teamName || "Match tied"}</strong></div>
+            ) : match.status === "LIVE" ? (
+              <div className="result-note">Ball-by-ball scoring is active · use the Scoring desk to continue.</div>
             ) : (
               <button type="button" className="btn btn-soft" style={{ marginTop: 12 }} onClick={() => setSelected(match)}>
                 Enter final score <Icon name="arrow" size={12} />
