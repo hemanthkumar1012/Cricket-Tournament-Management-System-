@@ -310,6 +310,60 @@ def test_ball_by_ball_scoring_tracks_extras_batter_stats_and_undo():
         assert after_undo["extras"] == 0
         assert after_undo["legal_balls"] == 1
 
+        no_ball = client.post(
+            f"/api/innings/{innings['id']}/deliveries",
+            headers=headers,
+            json={
+                "striker_id": striker["id"],
+                "non_striker_id": non_striker["id"],
+                "bowler_id": bowler["id"],
+                "batter_runs": 1,
+                "extra_type": "NO_BALL",
+            },
+        )
+        assert no_ball.status_code == 201, no_ball.text
+        no_ball_innings = no_ball.json()["innings"][0]
+        assert no_ball_innings["total_runs"] == 6
+        assert no_ball_innings["extras"] == 1
+        assert no_ball_innings["legal_balls"] == 1
+        striker_line = next(row for row in no_ball_innings["batting"] if row["player_id"] == striker["id"])
+        assert striker_line["runs"] == 5
+        assert striker_line["balls_faced"] == 1
+
+
+def test_two_player_squad_is_all_out_after_one_wicket():
+    reset_database()
+    with TestClient(app) as client:
+        headers = login(client)
+        falcons = create_team(client, headers, "Falcons")
+        tigers = create_team(client, headers, "Tigers")
+        striker = register_player(client, headers, "Aarav Batter", falcons["id"])
+        non_striker = register_player(client, headers, "Dev Batter", falcons["id"])
+        bowler = register_player(client, headers, "Rohan Bowler", tigers["id"])
+        match = create_match(client, headers, falcons["id"], tigers["id"])
+        started = client.post(
+            f"/api/matches/{match['id']}/innings",
+            headers=headers,
+            json={"batting_team_id": falcons["id"], "overs_limit": 5},
+        )
+        innings_id = started.json()["innings"][0]["id"]
+        wicket = client.post(
+            f"/api/innings/{innings_id}/deliveries",
+            headers=headers,
+            json={
+                "striker_id": striker["id"],
+                "non_striker_id": non_striker["id"],
+                "bowler_id": bowler["id"],
+                "wicket": True,
+                "dismissal_type": "bowled",
+                "dismissed_player_id": striker["id"],
+            },
+        )
+        assert wicket.status_code == 201, wicket.text
+        first_innings = wicket.json()["innings"][0]
+        assert first_innings["wickets"] == 1
+        assert first_innings["status"] == "COMPLETED"
+
 
 def test_ball_by_ball_scoring_requires_admin_and_valid_team_players():
     reset_database()
