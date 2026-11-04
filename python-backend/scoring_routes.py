@@ -217,7 +217,7 @@ def _innings_payload(db: Session, innings: score_models.Innings) -> dict:
 
 
 def _scorecard(db: Session, match_id: int) -> dict:
-    match = _get_match(db, match_id, lock=True)
+    match = _get_match(db, match_id, )
     innings = (
         db.query(score_models.Innings)
         .filter(score_models.Innings.match_id == match_id)
@@ -491,7 +491,7 @@ def finish_scored_match(
     db: Session = Depends(get_db),
     admin: str = Depends(require_admin),
 ):
-    match = _get_match(db, match_id)
+    match = _get_match(db, match_id, lock=True)
     innings = (
         db.query(score_models.Innings)
         .filter(score_models.Innings.match_id == match_id)
