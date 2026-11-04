@@ -118,7 +118,6 @@ def _innings_payload(db: Session, innings: score_models.Innings) -> dict:
     for player_id, stats in batting_stats.items():
         if stats["_first_seen"] != 999999:
             stats["status"] = "out" if player_id in dismissed else "not out"
-        stats.pop("_first_seen")
     batting_rows = sorted(
         batting_stats.values(),
         key=lambda item: (
