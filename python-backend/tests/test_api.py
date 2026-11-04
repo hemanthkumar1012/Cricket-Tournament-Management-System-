@@ -390,6 +390,13 @@ def test_ball_by_ball_scoring_requires_admin_and_valid_team_players():
         assert started.status_code == 201
         innings_id = started.json()["innings"][0]["id"]
 
+        late_signup = client.post(
+            "/api/players",
+            headers=headers,
+            json={"name": "Late Batter", "role": "Batter", "team_id": falcons["id"]},
+        )
+        assert late_signup.status_code == 409
+
         wrong_bowler = client.post(
             f"/api/innings/{innings_id}/deliveries",
             headers=headers,
