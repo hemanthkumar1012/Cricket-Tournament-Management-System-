@@ -1,0 +1,103 @@
+/* Modern depth and interaction layer for the existing CricPulse UI. */
+:root {
+  color-scheme: light;
+  --surface: #fff;
+  --soft: #f5f8f5;
+  --line: #dce5de;
+  --shadow: 0 18px 48px rgba(15, 44, 28, .09);
+  --shadow-raised: 0 24px 55px rgba(12, 47, 28, .16);
+}
+
+html { scroll-padding-top: 92px; }
+body {
+  background-image:
+    radial-gradient(ellipse at 86% 4%, rgba(196, 230, 126, .18), transparent 28%),
+    radial-gradient(ellipse at 20% 28%, rgba(89, 160, 115, .08), transparent 32%),
+    linear-gradient(145deg, #f3f6f2, #eaf0eb 55%, #f5f7f4);
+  background-attachment: fixed;
+}
+
+.app-main { perspective: 1400px; }
+.topbar {
+  background: rgba(248, 251, 248, .84);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+.sidebar {
+  background: linear-gradient(155deg, #102d1e 0%, #091d14 58%, #06150f 100%);
+  box-shadow: 16px 0 45px rgba(7, 28, 17, .16);
+}
+.brand-mark {
+  box-shadow: 0 8px 0 #9cbe4e, 0 13px 22px rgba(0, 0, 0, .22);
+  transform: translateY(-2px);
+}
+.card, .team-card, .live-card, .stat-card, .ops-item, .season-card {
+  transition: transform .24s cubic-bezier(.2,.8,.2,1), box-shadow .24s ease, border-color .2s ease;
+}
+.card {
+  box-shadow: 0 6px 22px rgba(18, 43, 27, .045), 0 1px 2px rgba(18, 43, 27, .04);
+}
+.card:hover {
+  transform: translateY(-3px) rotateX(.35deg);
+  box-shadow: var(--shadow-raised);
+  border-color: #cbd9ce;
+}
+.team-card:hover, .live-card:hover, .ops-item:hover {
+  transform: translateY(-3px);
+  border-color: #a9c49e;
+  box-shadow: 0 12px 25px rgba(20, 54, 31, .09);
+}
+.hero, .standings-hero, .live-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(9, 47, 28, .19), inset 0 1px rgba(255,255,255,.13);
+  transform-style: preserve-3d;
+}
+.hero::before, .standings-hero::before, .live-banner::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 340px;
+  height: 340px;
+  right: -100px;
+  top: -190px;
+  border: 1px solid rgba(226, 250, 195, .18);
+  border-radius: 50%;
+  box-shadow: 0 0 0 26px rgba(226,250,195,.035), 0 0 0 54px rgba(226,250,195,.025);
+  pointer-events: none;
+}
+.btn {
+  box-shadow: 0 3px 0 rgba(7, 32, 18, .08);
+  transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+}
+.btn:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.035); box-shadow: 0 7px 16px rgba(9, 46, 26, .13); }
+.btn:active:not(:disabled) { transform: translateY(0); box-shadow: 0 1px 2px rgba(9,46,26,.1); }
+.nav-item { transition: transform .18s ease, background .18s ease, color .18s ease; }
+.nav-item:hover { transform: translateX(3px); }
+input, select { transition: border-color .16s ease, box-shadow .16s ease, background .16s ease; }
+input:focus, select:focus {
+  border-color: #5a9a69 !important;
+  box-shadow: 0 0 0 4px rgba(81, 151, 94, .13) !important;
+  outline: none;
+}
+:where(button, a, input, select, [tabindex]):focus-visible {
+  outline: 3px solid #9fcf62;
+  outline-offset: 3px;
+}
+.data-table tbody tr { transition: background .16s ease; }
+.data-table tbody tr:hover { background: #f3f8f1; }
+.badge, .stat-icon, .ops-icon { box-shadow: inset 0 1px rgba(255,255,255,.75), 0 3px 7px rgba(14,42,23,.06); }
+.modal { box-shadow: 0 30px 90px rgba(0,0,0,.26); animation: modal-enter .2s ease-out both; }
+@keyframes modal-enter { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+@media (max-width: 760px) {
+  body { background-attachment: scroll; }
+  .card:hover, .team-card:hover, .live-card:hover, .ops-item:hover { transform: none; box-shadow: var(--shadow); }
+  .topbar { padding-inline: 16px; }
+  .page-content { padding-inline: 16px; }
+  .app-footer { padding-inline: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
