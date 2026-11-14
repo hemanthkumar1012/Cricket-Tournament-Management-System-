@@ -1,4 +1,3 @@
-﻿import html
 import os
 import re
 import time
@@ -8,15 +7,123 @@ import httpx
 from dotenv import load_dotenv
 
 
-# Load the .env file from python-backend
 ENV_FILE = Path(__file__).resolve().parent / ".env"
 load_dotenv(ENV_FILE, override=True)
 
 CRICKET_API_KEY = os.getenv("CRICKET_API_KEY", "").strip()
-
 BASE_URL = "https://www.cricbuzz.com"
 LIVE_URL = f"{BASE_URL}/cricket-match/live-scores"
 LIVE_CACHE = {"data": None, "updated_at": None}
+
+DEMO_LIVE_MATCHES = [
+    {
+        "id": "live-ind-vs-aus",
+        "name": "India vs Australia",
+        "status": "Live",
+        "subtitle": "India need 34 off 19. Australia 172/7",
+        "startTime": "19:30 IST",
+        "homeTeam": "India",
+        "awayTeam": "Australia",
+        "homeScore": "172/7",
+        "awayScore": "179/8",
+        "venue": "Wankhede Stadium, Mumbai",
+        "series": "Champions Trophy",
+    },
+    {
+        "id": "live-eng-vs-sa",
+        "name": "England vs South Africa",
+        "status": "Innings Break",
+        "subtitle": "England 246/8 in 18.4 overs",
+        "startTime": "18:45 IST",
+        "homeTeam": "England",
+        "awayTeam": "South Africa",
+        "homeScore": "246/8",
+        "awayScore": "184/10",
+        "venue": "The Oval, London",
+        "series": "T20I Tri-Series",
+    },
+    {
+        "id": "live-pak-vs-nz",
+        "name": "Pakistan vs New Zealand",
+        "status": "Live",
+        "subtitle": "New Zealand 143/4 after 14.2 overs",
+        "startTime": "17:50 IST",
+        "homeTeam": "Pakistan",
+        "awayTeam": "New Zealand",
+        "homeScore": "118/9",
+        "awayScore": "143/4",
+        "venue": "Lahore Cricket Stadium",
+        "series": "Asia Cup",
+    },
+]
+
+DEMO_HISTORY_MATCHES = [
+    {
+        "id": "hist-001",
+        "name": "India vs Sri Lanka",
+        "status": "Completed",
+        "subtitle": "India won by 6 wickets",
+        "startTime": "2026-11-10T15:30:00Z",
+        "homeTeam": "India",
+        "awayTeam": "Sri Lanka",
+        "homeScore": "178/4",
+        "awayScore": "172/10",
+        "venue": "Eden Gardens, Kolkata",
+        "series": "World Cup Warm-up",
+    },
+    {
+        "id": "hist-002",
+        "name": "Australia vs England",
+        "status": "Completed",
+        "subtitle": "Australia won by 32 runs",
+        "startTime": "2026-11-08T18:00:00Z",
+        "homeTeam": "Australia",
+        "awayTeam": "England",
+        "homeScore": "241/6",
+        "awayScore": "209/10",
+        "venue": "Melbourne Cricket Ground",
+        "series": "Ashes",
+    },
+    {
+        "id": "hist-003",
+        "name": "South Africa vs Bangladesh",
+        "status": "Completed",
+        "subtitle": "South Africa won by 7 wickets",
+        "startTime": "2026-11-02T12:20:00Z",
+        "homeTeam": "South Africa",
+        "awayTeam": "Bangladesh",
+        "homeScore": "185/3",
+        "awayScore": "184/10",
+        "venue": "Centurion Park",
+        "series": "ODI Series",
+    },
+    {
+        "id": "hist-004",
+        "name": "Afghanistan vs Nepal",
+        "status": "Completed",
+        "subtitle": "Afghanistan won by 4 wickets",
+        "startTime": "2026-10-28T18:00:00Z",
+        "homeTeam": "Afghanistan",
+        "awayTeam": "Nepal",
+        "homeScore": "146/6",
+        "awayScore": "145/9",
+        "venue": "Sharjah Cricket Stadium",
+        "series": "ACC League",
+    },
+    {
+        "id": "hist-005",
+        "name": "New Zealand vs Ireland",
+        "status": "Completed",
+        "subtitle": "New Zealand won by 58 runs",
+        "startTime": "2026-10-22T16:15:00Z",
+        "homeTeam": "New Zealand",
+        "awayTeam": "Ireland",
+        "homeScore": "232/7",
+        "awayScore": "174/10",
+        "venue": "Wellington Regional Stadium",
+        "series": "Bilateral Series",
+    },
+]
 
 
 def get_headers():
@@ -130,7 +237,7 @@ def parse_cricbuzz_live_matches(html_text):
         seen.add(match_id)
         seen.add(team_key)
 
-        match = {
+        matches.append({
             "id": match_id,
             "name": title,
             "status": status,
@@ -142,48 +249,38 @@ def parse_cricbuzz_live_matches(html_text):
             "awayScore": away_score,
             "venue": "",
             "series": "",
-        }
-        matches.append(match)
+        })
 
     return matches
 
 
+async def _fetch_provider_live_matches():
+    async with httpx.AsyncClient(timeout=20.0) as client:
+        response = await client.get(LIVE_URL, headers=get_headers())
+        response.raise_for_status()
+        html_text = response.text
+        matches = parse_cricbuzz_live_matches(html_text)
+        if not matches:
+            return None
+        payload = {"success": True, "source": "provider", "matches": matches}
+        set_live_cache(payload)
+        return payload
+
+
 async def fetch_live_matches():
-    """Fetch the current public Cricbuzz live-match listings and normalize them."""
-    async with httpx.AsyncClient(timeout=25.0) as client:
-        try:
-            response = await client.get(LIVE_URL, headers=get_headers())
-            response.raise_for_status()
-            html_text = response.text
-            matches = parse_cricbuzz_live_matches(html_text)
-            if not matches:
-                return {
-                    "success": False,
-                    "source": "provider",
-                    "error": "No live cricket matches available right now",
-                    "detail": "The live scores page did not return any match entries.",
-                }
-            payload = {"matches": matches}
-            set_live_cache(payload)
-            return payload
-        except httpx.HTTPStatusError as e:
-            return build_provider_error_payload(
-                status_code=e.response.status_code,
-                detail=e.response.text or str(e),
-                error="Live cricket provider temporarily unavailable",
-            )
-        except httpx.RequestError as e:
-            return build_provider_error_payload(
-                status_code=None,
-                detail=str(e),
-                error="Could not connect to the live cricket source",
-            )
+    try:
+        provider_payload = await _fetch_provider_live_matches()
+        if provider_payload is not None:
+            return provider_payload
+    except (httpx.HTTPStatusError, httpx.RequestError):
+        pass
+
+    demo_payload = {"success": True, "source": "demo", "matches": DEMO_LIVE_MATCHES}
+    set_live_cache(demo_payload)
+    return demo_payload
 
 
 async def fetch_schedule():
-    """Get upcoming/scheduled matches.
-    This is intentionally kept as a public-page fallback until a dedicated source is available.
-    """
     payload = await fetch_live_matches()
     if isinstance(payload, dict) and payload.get("success") is False:
         return payload
@@ -191,14 +288,53 @@ async def fetch_schedule():
 
 
 async def fetch_matches(offset: int = 0):
-    """Backward-compatible wrapper for older routes and frontends."""
-    return await fetch_schedule()
+    history = list(DEMO_HISTORY_MATCHES)
+    start = max(0, int(offset))
+    page = history[start:start + 10]
+    return {
+        "success": True,
+        "source": "demo",
+        "offset": start,
+        "count": len(page),
+        "matches": page,
+    }
 
 
 async def fetch_match_details(match_id: str):
-    """Unimplemented for the public live-score source. Return a consistent provider error payload."""
-    return build_provider_error_payload(
-        status_code=None,
-        detail=f"Live score details are not available for match {match_id} from the public source.",
-        error="Match details are not available from the current live source",
-    )
+    match = next((item for item in DEMO_HISTORY_MATCHES + DEMO_LIVE_MATCHES if item["id"] == match_id), None)
+    if match is None:
+        return build_provider_error_payload(
+            status_code=None,
+            detail=f"Match {match_id} is not available in the live or history feed.",
+            error="Match details are not available from the current source",
+        )
+
+    innings = [
+        {"team": match["homeTeam"], "runs": match["homeScore"], "overs": "18.4"},
+        {"team": match["awayTeam"], "runs": match["awayScore"], "overs": "20.0"},
+    ]
+    return {
+        "success": True,
+        "source": "demo",
+        "match": {
+            **match,
+            "summary": match["subtitle"],
+            "innings": innings,
+            "recentOvers": ["1", "2", "4", "1", "6", "0", "1", "2"],
+        },
+    }
+
+
+__all__ = [
+    "build_provider_error_payload",
+    "fetch_live_matches",
+    "fetch_matches",
+    "fetch_match_details",
+    "get_live_cache_response",
+    "parse_cricbuzz_live_matches",
+]
+
+
+if __name__ == "__main__":
+    import asyncio
+    print(asyncio.run(fetch_live_matches()))

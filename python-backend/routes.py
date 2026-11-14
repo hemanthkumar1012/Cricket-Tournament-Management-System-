@@ -1,4 +1,4 @@
-﻿from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from typing import List
@@ -6,6 +6,30 @@ import models, schemas, cricket_api
 from database import get_db
 
 router = APIRouter()
+
+
+@router.get("/cricket/live")
+async def get_cricket_live_matches():
+    data = await cricket_api.fetch_live_matches()
+    if isinstance(data, dict) and data.get("success") is False:
+        return JSONResponse(status_code=503, content=data)
+    return data
+
+
+@router.get("/cricket/matches")
+async def get_cricket_matches(offset: int = 0):
+    data = await cricket_api.fetch_matches(offset)
+    if isinstance(data, dict) and data.get("success") is False:
+        return JSONResponse(status_code=503, content=data)
+    return data
+
+
+@router.get("/cricket/matches/{match_id}")
+async def get_cricket_match_details(match_id: str):
+    data = await cricket_api.fetch_match_details(match_id)
+    if isinstance(data, dict) and data.get("success") is False:
+        return JSONResponse(status_code=503, content=data)
+    return data
 
 
 def _serialize_team(team: models.Team):
@@ -190,6 +214,7 @@ def update_match_result(match_id: int, team1Score: int = Query(None), team2Score
     db.refresh(db_match)
     return _serialize_match(db_match)
 
+
 @router.get("/live")
 async def get_live_matches():
     data = await cricket_api.fetch_live_matches()
@@ -209,23 +234,8 @@ async def get_live_matches():
             content=cricket_api.build_provider_error_payload(
                 status_code=None,
                 detail="Live cricket provider temporarily unavailable",
-                error="Live cricket provider temporarily unavailable"
-            )
+                error="Live cricket provider temporarily unavailable",
+            ),
         )
 
     return data
-
-@router.get("/cricket/matches")
-async def get_cricket_matches(offset: int = 0):
-    data = await cricket_api.fetch_matches(offset)
-    if isinstance(data, dict) and data.get("success") is False:
-        return JSONResponse(status_code=503, content=data)
-    return data
-
-@router.get("/cricket/matches/{match_id}")
-async def get_cricket_match_details(match_id: str):
-    data = await cricket_api.fetch_match_details(match_id)
-    if isinstance(data, dict) and data.get("success") is False:
-        return JSONResponse(status_code=503, content=data)
-    return data
-
