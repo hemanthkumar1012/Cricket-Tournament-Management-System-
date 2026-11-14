@@ -1,8 +1,9 @@
-﻿fastapi
+fastapi
 uvicorn
 sqlalchemy
 pymysql
 python-dotenv
 pydantic
-
 httpx
+pytest
+pytest-asyncio
