@@ -49,7 +49,7 @@ function MatchDetails({ match, onClose }) {
           {bowling.length ? <div className="scorecard-section"><h3>Bowling</h3><div className="scorecard-table"><div className="scorecard-table-head"><span>Bowler</span><span>O</span><span>R</span><span>W</span><span>ECON</span><span /></div>{bowling.map((row, index) => <div className="scorecard-table-row" key={`${row.name}-${index}`}><span>{row.name}</span><span>{row.overs}</span><span>{row.runs}</span><span>{row.wickets}</span><span>{row.economy}</span><span /></div>)}</div></div> : null}
         </> : null}
         {!loading && detail && tab === 'commentary' ? <div className="commentary-list">
-          {ballEvents.length ? ballEvents.map((event, index) => <article className="commentary-event" key={`${event.over}-${event.ball}-${index}`}><span className="commentary-over">{event.over}.{event.ball}</span><span className={`ball-chip ${event.runs === 4 || event.runs === 6 ? 'boundary' : ''}`}>{event.label || event.runs ?? '•'}</span><p>{event.commentary || event.description || `${event.batter || 'Batter'} — ${event.runs ?? 0} run${event.runs === 1 ? '' : 's'}${event.bowler ? `, bowled by ${event.bowler}` : ''}`}</p></article>) : <div className="detail-unavailable">Ball-by-ball commentary isn’t available for this match in the current data source.</div>}
+          {ballEvents.length ? ballEvents.map((event, index) => <article className="commentary-event" key={`${event.over}-${event.ball}-${index}`}><span className="commentary-over">{event.over}.{event.ball}</span><span className={`ball-chip ${event.runs === 4 || event.runs === 6 ? 'boundary' : ''}`}>{event.label ?? event.runs ?? '•'}</span><p>{event.commentary || event.description || `${event.batter || 'Batter'} — ${event.runs ?? 0} run${event.runs === 1 ? '' : 's'}${event.bowler ? `, bowled by ${event.bowler}` : ''}`}</p></article>) : <div className="detail-unavailable">Ball-by-ball commentary isn’t available for this match in the current data source.</div>}
         </div> : null}
         {detail?.venue ? <p className="detail-venue">{detail.venue}</p> : null}
       </section>
@@ -90,7 +90,9 @@ export default function LiveScores() {
       setHistoryMatches(items);
       setHasMoreHistory(Boolean(payload?.hasMore) || (typeof payload?.total === 'number' && items.length < payload.total));
     } else setError((current) => current || historyResult.reason?.message || 'Match history could not be loaded.');
-    setLoading(false); setHistoryLoading(false); setRefreshing(false);
+    setLoading(false);
+    setHistoryLoading(false);
+    setRefreshing(false);
   }, []);
 
   useEffect(() => {
